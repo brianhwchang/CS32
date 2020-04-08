@@ -22,11 +22,9 @@ public:
     void display() const;
     
 private:
-    int r;
-    int c;
     int m_rows;
     int m_cols;
-    char vialsDropped[MAXROWS][MAXCOLS]; // why do we declare the var with MAXROWS and MAXCOLS to start with?
+    char vialsDropped[MAXROWS][MAXCOLS]; 
     
 };
 

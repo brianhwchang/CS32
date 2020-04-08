@@ -77,7 +77,7 @@ string Game::takePlayerTurn()
 {
     for (;;)
     {
-        cout << "Your move (n/e/s/w/x or nothing): ";
+        cout << "Your move (n/e/s/w/x/h or nothing): ";
         string playerMove;
         getline(cin, playerMove);
 
@@ -91,10 +91,19 @@ string Game::takePlayerTurn()
             else
                 return player->dropPoisonVial();
         }
+        
         else if (playerMove.size() == 1)
         {
             if (tolower(playerMove[0]) == 'x')
                 return player->dropPoisonVial();
+            else if (tolower(playerMove[0]) == 'h')
+            {
+                m_arena->history().display();
+                cout << "Press enter to continue.";
+                cin.ignore(10000,'\n');
+                m_arena->display("");
+                continue;
+            }
             else if (decodeDirection(playerMove[0], dir))
                 return player->move(dir);
         }

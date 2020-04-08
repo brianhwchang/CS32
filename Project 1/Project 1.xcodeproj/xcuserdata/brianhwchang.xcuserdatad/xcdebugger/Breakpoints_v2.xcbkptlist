@@ -30,10 +30,10 @@
             filePath = "Project 1/Game.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "Game::takePlayerTurn()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

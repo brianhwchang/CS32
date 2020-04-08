@@ -20,6 +20,8 @@ using namespace std;
 
 History::History(int nRows, int nCols) // code for History constructor
 {
+    m_rows = nRows;
+    m_cols = nCols;
     for (int i = 0; i < nRows; i++) //for each row
     {
         for (int j = 0; j < nCols; j++) // for each column
@@ -28,6 +30,7 @@ History::History(int nRows, int nCols) // code for History constructor
         }
     }
 }
+
 
 bool History::record(int r, int c)
 {
@@ -42,6 +45,7 @@ bool History::record(int r, int c)
     else // if gridpoint is out of bounds.
         return false;
 }
+
 
 void History::display() const
 {

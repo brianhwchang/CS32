@@ -23,6 +23,7 @@ using namespace std;
 
 
 Arena::Arena(int nRows, int nCols)
+    : m_history(nRows, nCols)
 {
     if (nRows <= 0  ||  nCols <= 0  ||  nRows > MAXROWS  ||  nCols > MAXCOLS)
     {
@@ -221,4 +222,9 @@ void Arena::checkPos(int r, int c, string functionName) const
              << c << ") in call to " << functionName << endl;
         exit(1);
     }
+}
+
+History& Arena::history()
+{
+    return m_history;
 }

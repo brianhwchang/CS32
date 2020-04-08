@@ -53,6 +53,7 @@ string Player::dropPoisonVial()
     if (m_arena->getCellStatus(m_row, m_col) == HAS_POISON)
         return "There's already a poisoned blood vial at this spot.";
     m_arena->setCellStatus(m_row, m_col, HAS_POISON);
+    m_arena->history().record(m_row, m_col);
     return "A poisoned blood vial has been dropped.";
 }
 

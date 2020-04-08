@@ -28,6 +28,7 @@ class Player
     int  col() const;
     bool isDead() const;
 
+
       // Mutators
     string dropPoisonVial();
     string move(int dir);
