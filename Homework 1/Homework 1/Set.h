@@ -11,7 +11,10 @@
 
 #include <stdio.h>
 #include <string>
+using namespace std;
 
+using ItemType = string;
+const int DEFAULT_MAX_ITEMS = 240;
 
 class Set
 {
@@ -22,22 +25,22 @@ class Set
 
     int size() const;    // Return the number of items in the set. // const
 
-    bool insert(const std::string& value); //not const
+    bool insert(const ItemType& value); //not const
       // Insert value into the set if it is not already present.  Return
       // true if the value is actually inserted.  Leave the set unchanged
       // and return false if the value was not inserted (perhaps because it
       // was already in the set or because the set has a fixed capacity and
       // is full).
 
-    bool erase(const std::string& value); //not const
+    bool erase(const ItemType& value); //not const
       // Remove the value from the set if it is present.  Return true if the
       // value was removed; otherwise, leave the set unchanged and
       // return false.
      
-    bool contains(const std::string& value) const; //const
+    bool contains(const ItemType& value) const; //const
       // Return true if the value is in the set, otherwise false.
      
-    bool get(int i, std::string& value) const; //const
+    bool get(int i, ItemType& value) const; //const
       // If 0 <= i < size(), copy into value the item in the set that is
       // strictly greater than exactly i items in the set and return true.
       // Otherwise, leave value unchanged and return false.
@@ -47,7 +50,7 @@ class Set
     
 private:
     int m_size;
-    
+    ItemType m_set[DEFAULT_MAX_ITEMS];
 };
 
 #endif /* Set_h */
