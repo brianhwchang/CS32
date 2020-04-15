@@ -107,7 +107,7 @@ string Game::takePlayerTurn()
             else if (decodeDirection(playerMove[0], dir))
                 return player->move(dir);
         }
-        cout << "Player move must be nothing, or 1 character n/e/s/w/x." << endl;
+        cout << "Player move must be nothing, or 1 character n/e/s/w/x/h." << endl;
     }
 }
 

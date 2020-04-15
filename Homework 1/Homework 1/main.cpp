@@ -1,0 +1,15 @@
+//
+//  main.cpp
+//  Homework 1
+//
+//  Created by Brian Chang on 4/15/20.
+//  Copyright © 2020 Brian Chang. All rights reserved.
+//
+
+#include <iostream>
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    std::cout << "Hello, World!\n";
+    return 0;
+}
