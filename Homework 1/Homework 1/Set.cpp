@@ -71,7 +71,10 @@ bool Set::erase(const ItemType& value)
     {
         if (m_set[i] == value) //Checking is value is present in set.
         {
-            m_set[i] = m_set[i+1]; //overwriting value with next entry.
+            for (int j = i; j < m_size ;j++)
+            {
+                m_set[j] = m_set[j+1]; //overwriting value with next entry.
+            }
             m_size--; //decrementing size
             return true;
         }
