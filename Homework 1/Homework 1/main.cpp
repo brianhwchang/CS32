@@ -32,17 +32,38 @@ int main()
 //    ss.get(2, x);
 //    assert(x == "lavash");  // "lavash" is greater than exactly 2 items in ss
     
-    Set ss;
-    ss.insert("dosa");
-    assert(!ss.contains(""));
-    ss.insert("tortilla");
-    ss.insert("");
-    ss.insert("focaccia");
-    assert(ss.contains(""));
-    ss.erase("dosa");
-    assert(ss.size() == 3  &&  ss.contains("focaccia")  &&  ss.contains("tortilla")  &&  ss.contains(""));
-    string v;
-    assert(ss.get(1, v)  &&  v == "focaccia");
-    assert(ss.get(0, v)  &&  v == "");
+//    Set ss;
+//    ss.insert("dosa");
+//    assert(!ss.contains(""));
+//    ss.insert("tortilla");
+//    ss.insert("");
+//    ss.insert("focaccia");
+//    assert(ss.contains(""));
+//    ss.erase("dosa");
+//    assert(ss.size() == 3  &&  ss.contains("focaccia")  &&  ss.contains("tortilla")  &&  ss.contains(""));
+//    string v;
+//    assert(ss.get(1, v)  &&  v == "focaccia");
+//    assert(ss.get(0, v)  &&  v == "");
     
+    
+    // Code for testing my swap function.
+    
+    Set aa;
+    aa.insert("rice");
+    aa.insert("beans");
+    aa.insert("bread");
+    aa.insert("pasta");
+    
+    Set bb;
+    bb.insert("chicken");
+    bb.insert("pork");
+    bb.insert("beef");
+    
+    aa.swap(bb);
+    assert(aa.size()==3);
+    assert(bb.size()==4);
+    assert(aa.contains("chicken"));
+    assert(bb.contains("rice"));
+    assert(!aa.contains("pasta"));
+    assert(!bb.contains("beef"));
 }

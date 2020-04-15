@@ -158,7 +158,25 @@ bool Set::get(int i, ItemType& value) const
 // Exchange the contents of this set with the other one.
 void Set::swap(Set& other)
 {
+    ItemType duplicateSet[DEFAULT_MAX_ITEMS]; //creating duplicate set to store sorted set.
     
+    int placeholderSize = m_size; //assigning original size to placeholder var
+    m_size = other.m_size; //assigning size of other set to "original" set.
+    other.m_size = placeholderSize; // assigning size of "original" set to other set.
     
+    int longerSet; // creating temp var to hold longer size.
+                   // such that, I wont have to run the loop 240 times for every swap.
+    
+    if (m_size > other.m_size)
+        longerSet = m_size;
+    else
+        longerSet = other.m_size;
+    
+    for (int i = 0; i < longerSet; i++) // swapping each term. #efficiency #bigBrainTings
+    {
+        duplicateSet[i] = m_set[i];
+        m_set[i] = other.m_set[i];
+        other.m_set[i] = duplicateSet[i];
+    }
 }
 
