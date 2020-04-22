@@ -7,9 +7,32 @@
 //
 
 #include <iostream>
+#include <string>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+using namespace std;
+
+int main()
+{
+    //test code for swapper
+//    
+//    Set aa;
+//    aa.insert("rice");
+//    aa.insert("beans");
+//    aa.insert("bread");
+//    aa.insert("pasta");
+//
+//    Set bb;
+//    bb.insert("chicken");
+//    bb.insert("pork");
+//    bb.insert("beef");
+//
+//    aa.swap(bb);
+//    assert(aa.size()==3);
+//    assert(bb.size()==4);
+//    assert(aa.contains("chicken"));
+//    assert(bb.contains("rice"));
+//    assert(!aa.contains("pasta"));
+//    assert(!bb.contains("beef"));
+    
+    return (1);
 }
