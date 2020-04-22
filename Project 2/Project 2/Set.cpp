@@ -20,50 +20,43 @@ Set::Set() //Constructor
 
 Set::Set(const Set& other) // Copy constructor
 {
-    m_size = other.m_size; //copy sizes
+    //initilise the list just like the default constructor
+    head = nullptr;
+    tail = nullptr;
+    m_size=0;
     
-    if (other.head == nullptr)
-        head = nullptr;
-    
-    else
+    Node* p = other.head;       //creating a pointer to other list
+        
+    while (p != nullptr)        //looping through other lise
     {
-        head = new Node;
-        head->m_value = other.head->m_value;
-        head->next = nullptr;
-        
-        Node* thisCur = head;   // @@@@@@@@@@ ASK ALISSA @@@@@@@@@@
-        Node* otherCur = other.head;
-        
-        while(otherCur->next != nullptr)
-        {
-            thisCur->next = new Node;                         //creating next node
-            thisCur->next->m_value = otherCur->next->m_value; //storing next val from other into current->next->val
-            thisCur->next = nullptr;                          //assigning nullptr in to cur->next in case this is the last val
-            
-            thisCur = thisCur->next;
-            otherCur = otherCur->next;
-        }
-        tail = thisCur;                       //ASK ALISSA ABOUT ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@@@@@@@@@@
+        insert(p->m_value);     //using insert fxn to add all values
+        p = p->next;            //moving to next node
     }
 }
 
 Set::~Set()//Destructor. DONE.
 {
-    if(m_size == 1)
+    if(m_size == 1)             //if only 1 node, then just delete head.
         delete head;
     
     Node* p = head;
-    while (p->next != nullptr)
+    while (p != nullptr)
     {
-        p = p->next;
-        delete p->prev;
+        Node* temp = p->next;
+        delete p;
+        p = temp;
     }
-    delete tail;
 }
+
 
 Set& Set::operator=(const Set& rhs)
 {
-    return *this;
+    if (this != &rhs)       //if LHS != to RHS
+    {
+        Set copy(rhs);      //Create a copy of RHS
+        swap(copy);         //Swap LHS and Copy
+    }
+    return *this;           //return LSH
 }
 
 
@@ -218,14 +211,14 @@ bool Set::get(int pos, ItemType& value) const //DONE
     int index = 0;
     for (Node* p = head; p != nullptr; p = p->next)     //looping through each node.
     {
-        if (index >= pos)                               //if index matches position
+        if (index == pos)                               //if index matches position
         {
             value = p->m_value;                         //assigned value stored at index node to value variable.
-            break;
+            return true;
         }
-        index++;
+        index++;                                        //increment index counter with each loop.
     }
-    return true;
+    return false;
 }
 
 
@@ -337,3 +330,32 @@ void subtract(const Set& s1, const Set& s2, Set& result) //NOT DONE.
 //    Node* eraseMe = tail;
 //}
 //return false;
+
+//
+//
+//Set::Set(const Set& other)
+//}
+//if (other.head == nullptr)
+//    head = nullptr;
+//
+//else
+//{
+//    head = new Node;
+//    head->m_value = other.head->m_value;
+//    head->next = nullptr;
+//
+//    Node* thisCur = head;   // @@@@@@@@@@ ASK ALISSA @@@@@@@@@@
+//    Node* otherCur = other.head;
+//
+//    while(otherCur->next != nullptr)
+//    {
+//        Node* tempNode = new Node;
+//        thisCur->next = tempNode;                         //creating next node
+//        thisCur->next->m_value = otherCur->next->m_value; //storing next val from other into current->next->val
+//        thisCur->next = nullptr;                          //assigning nullptr in to cur->next in case this is the last val
+//
+//        thisCur = thisCur->next;
+//        otherCur = otherCur->next;
+//    }
+//    tail = thisCur;                       //ASK ALISSA ABOUT ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@@@@@@@@@@
+//}

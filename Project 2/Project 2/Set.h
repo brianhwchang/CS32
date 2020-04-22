@@ -14,7 +14,7 @@
 
 using namespace std;
 
-typedef string ItemType;
+using ItemType = std::string;
 
 
 class Set
