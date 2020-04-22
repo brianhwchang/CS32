@@ -124,7 +124,7 @@ bool Set::insert(const ItemType& value) //DONE
         return true;
     }
     
-    else
+    else //value is larger than head but smaller than tail.
     {
         Node* p = head;
         while (p != nullptr) //traversing list
@@ -138,64 +138,58 @@ bool Set::insert(const ItemType& value) //DONE
         {
             Node* insertNode = new Node;
             insertNode->m_value = value;
-            insertNode->prev = p;           //because p precedes insert node.
-            insertNode->next = p->next;     //linking insert 
+            insertNode->prev = p;           //creating backward link from insert node to p node.
+            insertNode->next = p->next;     //creating forward link from insert node and p->next node.
+            p->next->prev = insertNode;     //creating backward link from p->next node to insert node.
+            p->next = insertNode;           //creating forward link from p node to insert node.
+            m_size++;                       // IT'S OVER 9000 (well, it could be)
+            return true;
         }
-        
-        
     }
-    
-    
-    
-    
-    
-    
-    Node* cur = head->next;         //creating a temp node pointer called cur.
-    
-    while (cur->next != nullptr)    //advancing to terminal node.         @@@@@@@@@@ ASK ALISSA IF I COULD JUST USE THE TAIL @@@@@@@@@@@@@
-        cur = cur->next;
-    
-    Node* insertNode = new Node;    //creating new node
-    insertNode->m_value = value;    //assigning value
-    insertNode->next = nullptr;     //next points to nullptr
-    insertNode->prev = cur;         //prev points to previous terminal node
-    cur->next = insertNode;         //previous terminal node now points to insert node.
-    tail = insertNode;              //this becomes the new tail
-    
-    return true;                    //return true after successful insertion. lol.
-    
-    
-    
-    
-    
+    return false; //idk, nothing else worked?
 }
 
 
 bool Set::erase(const ItemType& value) // NOT DONE
 {
-    if (contains(value))            //check if it's already in there
+    if (!contains(value) || empty())            //check if list even contains item we want to delete or if it's empty.
         return false;
-    
-    Node* p = head;
-    
-    while (p != nullptr) //traversing list
+
+    if (m_size == 1)                //deleting the only node.
     {
-        if (p->next != nullptr && p->next->m_value == value)
-            break;
-        p = p->next;
+        Node* eraseMe = head;
+        head = nullptr;
+        tail = nullptr;
+        delete eraseMe;             //@@@@@@@@@@@@@ IS THIS VALID? @@@@@@@@@@@@@@@@
+        m_size--;
+        return true;
     }
     
-    if (p != nullptr) //we found our value! (Thanks Carey.)
+    for (Node* cur = head; cur != nullptr; cur = cur->next) //looping through list
     {
-        Node* eraseMe = p->next;        //Assigning target node to pointer "eraseMe"
-        p->next = eraseMe->next;        //Skipping eraseMe node in forward link.
-        eraseMe->next->prev = p;        //Skipping eraseMe node in backward link.
-        
-        delete eraseMe;                 //deleting the eraseMe node;
-        return true;                    //Our work here is done.
+        if (cur->m_value == value)                          //we find a matching value
+        {
+            if (cur == head)                                //if we need to delete the head.
+            {
+                head = cur->next;                        //making the 2nd node the new head.
+                head->prev = nullptr;                        //making sure that nothing comes before head
+            }
+            else if (cur == tail)                           //if we gotta delete the tail.
+            {
+                tail = cur->prev;
+                tail->next = nullptr;
+            }
+            else                                            //anything inbetween head & tail
+            {
+                cur->prev->next = cur->next;                //fixing backward link
+                cur->next->prev = cur->prev;                //fixing forward link
+            }
+            delete cur;
+            m_size--;
+            return true;
+        }
     }
-    
-    return false;                       //if nothing is met?              @@@@@@@@@@@ ASK ALISSA @@@@@@@@@@@@@
+    return false;
 }
 
 
@@ -267,3 +261,79 @@ void subtract(const Set& s1, const Set& s2, Set& result) //NOT DONE.
 {
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//_______________________________no longer needed but maybe good to keep.________________________________________________________________
+
+//
+//Node* cur = head->next;         //creating a temp node pointer called cur.
+//
+//while (cur->next != nullptr)    //advancing to terminal node.         @@@@@@@@@@ ASK ALISSA IF I COULD JUST USE THE TAIL @@@@@@@@@@@@@
+//    cur = cur->next;
+//
+//Node* insertNode = new Node;    //creating new node
+//insertNode->m_value = value;    //assigning value
+//insertNode->next = nullptr;     //next points to nullptr
+//insertNode->prev = cur;         //prev points to previous terminal node
+//cur->next = insertNode;         //previous terminal node now points to insert node.
+//tail = insertNode;              //this becomes the new tail
+//
+//return true;                    //return true after successful insertion. lol.
+
+
+
+
+//while (p != nullptr) //traversing list
+//{
+//    if (p->next != nullptr && p->next->m_value == value)
+//        break;
+//    p = p->next;
+//}
+//
+//if (p != nullptr) //we found our value! (Thanks Carey.)
+//{
+//    Node* eraseMe = p->next;        //Assigning target node to pointer "eraseMe"
+//    p->next = eraseMe->next;        //Skipping eraseMe node in forward link.
+//    eraseMe->next->prev = p;        //Skipping eraseMe node in backward link.
+//
+//    delete eraseMe;                 //deleting the eraseMe node;
+//    return true;                    //Our work here is done.
+//}
+//
+//return false;                       //if nothing is met?              @@@@@@@@@@@ ASK ALISSA @@@@@@@@@@@@@
+
+//if (value == head->m_value)      //value is less than head (Which should be the smallest value)
+//{
+//    Node* eraseMe = head;
+//
+//    if (m_size == 1)            //deleting head node
+//    {
+//        head = nullptr;
+//        tail = nullptr;
+//        delete eraseMe;
+//        m_size--;
+//        return true;
+//    }
+//
+//    head = eraseMe->next;       //making the 2nd node the new head.
+//    head->prev = nullptr;       //making sure that nothing comes before head
+//    delete eraseMe;
+//    m_size--;
+//    return true;
+//}
+//else if (value == tail->m_value)
+//{
+//    Node* eraseMe = tail;
+//}
+//return false;
