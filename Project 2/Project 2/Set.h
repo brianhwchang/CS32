@@ -14,7 +14,7 @@
 
 using namespace std;
 
-using ItemType = unsigned long;
+using ItemType = std::string;
 
 
 class Set
