@@ -14,7 +14,7 @@
 
 using namespace std;
 
-using ItemType = unsigned long;
+using ItemType = std::string;
 
 
 class Set
@@ -33,7 +33,6 @@ public:
     bool contains(const ItemType& value) const;
     bool get(int pos, ItemType& value) const;
     void swap(Set& other);
-    void dump() const;
     
 private:
     

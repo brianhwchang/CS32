@@ -43,6 +43,7 @@ Set::~Set()//Destructor. DONE.
     while (p != nullptr)        //looping through list
     {
         Node* temp = p->next;   //creating a temp var to store p->next address
+        cout << "I'm being destroyed: " << p->m_value << endl;
         delete p;
         p = temp;
     }
@@ -153,7 +154,7 @@ bool Set::erase(const ItemType& value) // NOT DONE
         Node* eraseMe = head;
         head = nullptr;
         tail = nullptr;
-        delete eraseMe;
+        delete eraseMe;             //@@@@@@@@@@@@@ IS THIS VALID? @@@@@@@@@@@@@@@@
         m_size--;
         return true;
     }
@@ -262,7 +263,6 @@ void unite(const Set& s1, const Set& s2, Set& result) //DONE.
         copy2.get(i, value);                //pull the value at index i
         compiled.insert(value);             //insert value into compiled list
     }
-    
     result = compiled;                      //using assignment operator to overwrite this list.
 }
 
@@ -281,8 +281,17 @@ void subtract(const Set& s1, const Set& s2, Set& result) //NOT DONE.
             compiled.insert(value);
     }
     
+    for (int i = 0; i < copy2.size(); i++)
+    {
+        copy2.get(i, value);                //pull the value at index i
+        if (!copy1.contains(value))         //checking that item present in 2 is not present in 1
+            compiled.insert(value);
+    }
     result = compiled;
 }
+
+
+
 
 
 
