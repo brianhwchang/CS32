@@ -15,9 +15,52 @@
 
 using namespace std;
 
+//Helper fxns
 string removeSpaces(string infix);
 int precedence(char chr);
 string postfixConversion( string infix, string postfix);
+bool isValidString(string infix);
+
+//Evaluate function.
+int evaluate(string infix, string& postfix, bool& result);
+
+
+//int main()
+//{
+//string pf;
+//    bool answer;
+//    assert(evaluate("T^ F", pf, answer) == 0  &&  pf == "TF^"  &&  answer);
+//    assert(evaluate("T^", pf, answer) == 1);
+//    assert(evaluate("F F", pf, answer) == 1);
+//    assert(evaluate("TF", pf, answer) == 1);
+//    assert(evaluate("()", pf, answer) == 1);
+//    assert(evaluate("()T", pf, answer) == 1);
+//    assert(evaluate("T(F^T)", pf, answer) == 1);
+//    assert(evaluate("T(&T)", pf, answer) == 1);
+//    assert(evaluate("(T&(F^F)", pf, answer) == 1);
+//    assert(evaluate("T|F", pf, answer) == 1);
+//    assert(evaluate("", pf, answer) == 1);
+//    assert(evaluate("F  ^  !F & (T&F) ", pf, answer) == 0
+//                           &&  pf == "FF!TF&&^"  &&  !answer);
+//    assert(evaluate(" F  ", pf, answer) == 0 &&  pf == "F"  &&  !answer);
+//    assert(evaluate("((T))", pf, answer) == 0 &&  pf == "T"  &&  answer);
+//    cout << "Passed all tests" << endl;
+//}
+
+
+// Evaluates a boolean expression
+//   If infix is a syntactically valid infix boolean expression,
+//   then set postfix to the postfix form of that expression, set
+//   result to the value of the expression, and return zero.  If
+//   infix is not a syntactically valid expression, return 1; in
+//   that case, postfix may or may not be changed, but result must
+//   be unchanged.
+int evaluate(string infix, string& postfix, bool& result)
+{
+    
+    
+    return 1; //@@@@@@@@@@@@@@@@@ DELETE ME AT END @@@@@@@@@@@@@@@@@
+}
 
 //Initialize the operand stack to empty
 //For each character ch in the postfix string
@@ -33,14 +76,11 @@ string postfixConversion( string infix, string postfix);
 //When the loop is finished, the operand stack will contain one item,
 //  the result of evaluating the expression
 
-int evaluate(string infix, string& postfix, bool& result);
-// Evaluates a boolean expression
-//   If infix is a syntactically valid infix boolean expression,
-//   then set postfix to the postfix form of that expression, set
-//   result to the value of the expression, and return zero.  If
-//   infix is not a syntactically valid expression, return 1; in
-//   that case, postfix may or may not be changed, but result must
-//   be unchanged.
+
+
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Helper Fxn Code @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 string removeSpaces(string infix)            //trivial space remover fxn.
 {
@@ -150,42 +190,29 @@ string postfixConversion( string infix, string postfix)
 //    append the stack top to postfix
 //        pop the stack
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int main()
-//{
-//string pf;
-//    bool answer;
-//    assert(evaluate("T^ F", pf, answer) == 0  &&  pf == "TF^"  &&  answer);
-//    assert(evaluate("T^", pf, answer) == 1);
-//    assert(evaluate("F F", pf, answer) == 1);
-//    assert(evaluate("TF", pf, answer) == 1);
-//    assert(evaluate("()", pf, answer) == 1);
-//    assert(evaluate("()T", pf, answer) == 1);
-//    assert(evaluate("T(F^T)", pf, answer) == 1);
-//    assert(evaluate("T(&T)", pf, answer) == 1);
-//    assert(evaluate("(T&(F^F)", pf, answer) == 1);
-//    assert(evaluate("T|F", pf, answer) == 1);
-//    assert(evaluate("", pf, answer) == 1);
-//    assert(evaluate("F  ^  !F & (T&F) ", pf, answer) == 0
-//                           &&  pf == "FF!TF&&^"  &&  !answer);
-//    assert(evaluate(" F  ", pf, answer) == 0 &&  pf == "F"  &&  !answer);
-//    assert(evaluate("((T))", pf, answer) == 0 &&  pf == "T"  &&  answer);
-//    cout << "Passed all tests" << endl;
-//}
+bool isValidString(string infix)
+{
+    string temp = removeSpaces(infix);
+    
+    for (int i = 0; i < temp.size(); i++)
+    {
+        if (temp[i] == '&' || temp[i] == '^')   //Given '&' or '^' operators.
+        {
+            //Only True, False, or ')' chars are allowed to precede and/or operators.
+            //Only True, False, or '(' chars are allowed to proceed and/or operators.
+            if ( (temp[i-1] != 'T' && temp[i-1] != 'F' && temp[i-1] != ')') || (temp[i+1] != 'T' && temp[i+1] != 'F' && temp[i+1] != '(') )
+                return false;
+        }
+        if (temp[i] == 'T' || temp[i] == 'F')   //Given 'T' or 'F' operands
+        {
+            //Operands cannot proceed one another (so i+1 can't be 'T' or 'F')
+            //The '!' can only preceed and not proceed operands.
+            if (temp[i+1] == 'T' || temp[i+1] == 'F' || temp[i+1] == '!')
+                return false;
+        }
+        //infix string cannot end with operators
+        if (temp[temp.size()-1] == '&' || temp[temp.size()-1] == '^')
+            return false;
+    }
+    return true;                //Passed all tests. Return true.
+}
