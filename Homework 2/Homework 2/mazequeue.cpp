@@ -32,17 +32,17 @@
 //    queue<Coord> coordQueue;            //Creating a queue of coordinates.
 //    coordQueue.push(Coord(sr, sc));     //Enqueing starting coordinates.
 //    maze[sr][sc] = '#';                 //marking starting coord as "discovered".
-//    
+//
 //    while (!coordQueue.empty())
 //    {
 //        Coord cur = coordQueue.front();     //assinging front coord to var current.
 //        int row = cur.r();                  //creating a var to hold current row index.
 //        int col = cur.c();                  //creating a var to hold current col index.
 //        coordQueue.pop();                   //dequeue-ing front var.
-//        
+//
 //        if (row == er && col == ec)         //If we reach the end point, return true.
 //            return true;
-//        
+//
 //        else
 //        {
 //            //Check SOUTH
@@ -74,6 +74,28 @@
 //    return false; //No solution found.
 //}
 //
+//
+//int main()
+//{
+//    char maze[10][10] = {
+//        { 'X','X','X','X','X','X','X','X','X','X' },
+//        { 'X','.','.','.','.','X','.','.','.','X' },
+//        { 'X','.','X','X','.','X','X','.','.','X' },
+//        { 'X','X','X','.','.','.','.','X','.','X' },
+//        { 'X','.','X','X','X','.','X','X','X','X' },
+//        { 'X','.','X','.','.','.','X','.','.','X' },
+//        { 'X','.','.','.','X','.','X','.','.','X' },
+//        { 'X','X','X','X','X','.','X','.','X','X' },
+//        { 'X','.','.','.','.','.','.','.','.','X' },
+//        { 'X','X','X','X','X','X','X','X','X','X' }
+//    };
+//
+//    if (pathExists(maze, 3,5, 8,8))
+//        cout << "Solvable!" << endl;
+//    else
+//        cout << "Out of luck!" << endl;
+//}
+
 //
 //int main()
 //{   //Positive test case.
