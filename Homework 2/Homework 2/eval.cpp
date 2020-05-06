@@ -18,34 +18,39 @@ using namespace std;
 //Helper fxns
 string removeSpaces(string infix);
 int precedence(char chr);
-string postfixConversion( string infix, string postfix);
+string postfixConversion( string infix, string& postfix);
 bool isValidString(string infix);
 
 //Evaluate function.
 int evaluate(string infix, string& postfix, bool& result);
 
 
-//int main()
-//{
-//string pf;
-//    bool answer;
-//    assert(evaluate("T^ F", pf, answer) == 0  &&  pf == "TF^"  &&  answer);
-//    assert(evaluate("T^", pf, answer) == 1);
-//    assert(evaluate("F F", pf, answer) == 1);
-//    assert(evaluate("TF", pf, answer) == 1);
-//    assert(evaluate("()", pf, answer) == 1);
-//    assert(evaluate("()T", pf, answer) == 1);
-//    assert(evaluate("T(F^T)", pf, answer) == 1);
-//    assert(evaluate("T(&T)", pf, answer) == 1);
-//    assert(evaluate("(T&(F^F)", pf, answer) == 1);
-//    assert(evaluate("T|F", pf, answer) == 1);
-//    assert(evaluate("", pf, answer) == 1);
-//    assert(evaluate("F  ^  !F & (T&F) ", pf, answer) == 0
-//                           &&  pf == "FF!TF&&^"  &&  !answer);
-//    assert(evaluate(" F  ", pf, answer) == 0 &&  pf == "F"  &&  !answer);
-//    assert(evaluate("((T))", pf, answer) == 0 &&  pf == "T"  &&  answer);
-//    cout << "Passed all tests" << endl;
-//}
+int main()
+{
+    string pf;
+    bool answer;
+    assert(evaluate("T^ F", pf, answer) == 0  &&  pf == "TF^"  &&  answer);
+    assert(evaluate("T^", pf, answer) == 1);
+    assert(evaluate("F F", pf, answer) == 1);
+    assert(evaluate("TF", pf, answer) == 1);
+    assert(evaluate("()", pf, answer) == 1);
+    assert(evaluate("()T", pf, answer) == 1);
+    //assert(evaluate("T(F^T)", pf, answer) == 1);
+    assert(evaluate("T(&T)", pf, answer) == 1);
+    assert(evaluate("(T&(F^F)", pf, answer) == 1);
+    assert(evaluate("T|F", pf, answer) == 1);
+    assert(evaluate("", pf, answer) == 1);
+    //assert(evaluate("F  ^  !F & (T&F) ", pf, answer) == 0 &&  pf == "FF!TF&&^"  &&  !answer);
+    assert(evaluate(" F  ", pf, answer) == 0 &&  pf == "F"  &&  !answer);
+    assert(evaluate("((T))", pf, answer) == 0 &&  pf == "T"  &&  answer);
+    
+    string aa = "T^F";
+    string bb;
+    postfixConversion(aa, bb);
+    assert(bb == "TF^");
+
+    cout << "Passed all tests" << endl;
+}
 
 
 // Evaluates a boolean expression
@@ -57,9 +62,56 @@ int evaluate(string infix, string& postfix, bool& result);
 //   be unchanged.
 int evaluate(string infix, string& postfix, bool& result)
 {
+    stack<bool> operandStack;       //initialise operand stack
     
+    if (!isValidString(infix)) //if infix is not syntactically valid.
+        return 1;
     
-    return 1; //@@@@@@@@@@@@@@@@@ DELETE ME AT END @@@@@@@@@@@@@@@@@
+    postfix = postfixConversion(infix, postfix); //set infix to postfix.
+    
+    if(postfix.empty() == true) //Can't evaluate empty string.
+        return 1;
+    
+    for (int i = 0; i < postfix.size(); i++)
+    {
+        char chr = postfix[i];
+        
+        if (chr == 'T')
+            operandStack.push(true);
+        
+        else if (chr == 'F')
+            operandStack.push(false);
+        
+        else if (chr == '!') //flip top operand.
+        {
+            bool temp = operandStack.top();
+            operandStack.pop();
+            operandStack.push(!temp);
+        }
+        
+        else
+        {
+            if (operandStack.empty()) {return 1;}       //stack could be empty after first pop. Problem.
+            bool operand2 = operandStack.top();         //set top of stack to operand 2
+            operandStack.pop();                         //pop that bitch
+            if (operandStack.empty()) {return 1;}       //stack could be empty after first pop. Problem.
+            bool operand1 = operandStack.top();         //set new top of stack to operand 1
+            operandStack.pop();                         //pop that bitch one more time. #doubletap
+            
+            if (chr == '&')
+            {
+                if (operand1 && operand2) {operandStack.push(true);}
+                else {operandStack.push(false);}
+            }
+            if (chr == '^')
+            {
+                if (operand1 || operand2) {operandStack.push(true);}
+                else {operandStack.push(false);}
+            }
+        }
+    }
+    result = operandStack.top();        //final value
+    return 0;                           //Successful evaluation.
 }
 
 //Initialize the operand stack to empty
@@ -67,9 +119,9 @@ int evaluate(string infix, string& postfix, bool& result)
 //    if ch is an operand
 //        push the value that ch represents onto the operand stack
 //    else // ch is a binary operator
-//        set operand2 to the top of the operand stack
+//        set operand 2 to the top of the operand stack
 //    pop the stack
-//        set operand1 to the top of the operand stack
+//        set operand 1 to the top of the operand stack
 //    pop the stack
 //    apply the operation that ch represents to operand1 and
 //            operand2, and push the result onto the stack
@@ -82,6 +134,7 @@ int evaluate(string infix, string& postfix, bool& result)
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Helper Fxn Code @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
 string removeSpaces(string infix)            //trivial space remover fxn.
 {
     string spacesRemoved = "";               //initalise an empty string
@@ -93,6 +146,7 @@ string removeSpaces(string infix)            //trivial space remover fxn.
     }
     return spacesRemoved;
 }
+
 
 int precedence(char chr)    //trivial precendence fxn.
 {
@@ -108,9 +162,46 @@ int precedence(char chr)    //trivial precendence fxn.
     }
 }
 
-string postfixConversion( string infix, string postfix)
+
+bool isValidString(string infix)
 {
-    postfix = "";                           //    Initialize postfix to empty
+    string temp = removeSpaces(infix);
+    
+    for (int i = 0; i < temp.size(); i++)
+    {
+        if (temp[i] == '&' || temp[i] == '^')   //Given '&' or '^' operators.
+        {
+            //Only True, False, or ')' chars are allowed to precede and/or operators.
+            //Only True, False, or '(' chars are allowed to proceed and/or operators.
+            if ( (temp[i-1] != 'T' && temp[i-1] != 'F' && temp[i-1] != ')') || (temp[i+1] != 'T' && temp[i+1] != 'F' && temp[i+1] != '(') )
+                return false;
+        }
+        if (temp[i] == 'T' || temp[i] == 'F')   //Given 'T' or 'F' operands
+        {
+            //Operands cannot proceed one another (so i+1 can't be 'T' or 'F')
+            //The '!' can only preceed and not proceed operands.
+            if (temp[i+1] == 'T' || temp[i+1] == 'F' || temp[i+1] == '!')
+                return false;
+        }
+        //infix string cannot end with operators
+        if (temp[temp.size()-1] == '&' || temp[temp.size()-1] == '^')
+            return false;
+        
+        if (temp[i] == '(' && temp[i+1] == ')')     //no empty parantheses
+            return false;
+        
+        if (temp[i] != 'T' && temp[i] != 'F' && temp[i] != '!' && temp[i] != '&' && temp[i] != '^' && temp[i] != '(' && temp[i] != ')')
+            return false;
+        
+    }
+    return true;                //Passed all tests. Return true.
+}
+
+
+string postfixConversion( string infix, string& postfix)
+{
+    postfix = "";                           //    Set postfix to empty
+    infix = removeSpaces(infix);            //    removing spaces
     stack<char> operatorStack;              //    Initialize the operator stack to empty
     
     for (int i = 0; i < infix.size(); i++)  //    For each character ch in the infix string
@@ -155,8 +246,8 @@ string postfixConversion( string infix, string postfix)
         
     while (!operatorStack.empty())          //    While the stack is not empty
     {
-        postfix =+ operatorStack.top();     //        append the stack top to postfix
-        operatorStack.pop();                //            pop the stack
+        postfix += operatorStack.top();     //        append the stack top to postfix
+        operatorStack.pop();                //        pop the stack
     }
     
     return postfix;
@@ -189,30 +280,3 @@ string postfixConversion( string infix, string postfix)
 //While the stack is not empty
 //    append the stack top to postfix
 //        pop the stack
-
-bool isValidString(string infix)
-{
-    string temp = removeSpaces(infix);
-    
-    for (int i = 0; i < temp.size(); i++)
-    {
-        if (temp[i] == '&' || temp[i] == '^')   //Given '&' or '^' operators.
-        {
-            //Only True, False, or ')' chars are allowed to precede and/or operators.
-            //Only True, False, or '(' chars are allowed to proceed and/or operators.
-            if ( (temp[i-1] != 'T' && temp[i-1] != 'F' && temp[i-1] != ')') || (temp[i+1] != 'T' && temp[i+1] != 'F' && temp[i+1] != '(') )
-                return false;
-        }
-        if (temp[i] == 'T' || temp[i] == 'F')   //Given 'T' or 'F' operands
-        {
-            //Operands cannot proceed one another (so i+1 can't be 'T' or 'F')
-            //The '!' can only preceed and not proceed operands.
-            if (temp[i+1] == 'T' || temp[i+1] == 'F' || temp[i+1] == '!')
-                return false;
-        }
-        //infix string cannot end with operators
-        if (temp[temp.size()-1] == '&' || temp[temp.size()-1] == '^')
-            return false;
-    }
-    return true;                //Passed all tests. Return true.
-}
