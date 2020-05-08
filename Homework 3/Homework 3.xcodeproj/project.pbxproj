@@ -11,6 +11,7 @@
 		7825950024627D3200B7603D /* linear.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 782594FF24627D3200B7603D /* linear.cpp */; };
 		7825950224627D4700B7603D /* maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7825950124627D4700B7603D /* maze.cpp */; };
 		7825950424627D5500B7603D /* tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7825950324627D5500B7603D /* tree.cpp */; };
+		78259506246505F900B7603D /* linear test routines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78259505246505F900B7603D /* linear test routines.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,7 @@
 		782594FF24627D3200B7603D /* linear.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = linear.cpp; sourceTree = "<group>"; };
 		7825950124627D4700B7603D /* maze.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maze.cpp; sourceTree = "<group>"; };
 		7825950324627D5500B7603D /* tree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tree.cpp; sourceTree = "<group>"; };
+		78259505246505F900B7603D /* linear test routines.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "linear test routines.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 			children = (
 				782594F824615D9500B7603D /* animal.cpp */,
 				782594FF24627D3200B7603D /* linear.cpp */,
+				78259505246505F900B7603D /* linear test routines.cpp */,
 				7825950124627D4700B7603D /* maze.cpp */,
 				7825950324627D5500B7603D /* tree.cpp */,
 			);
@@ -132,6 +135,7 @@
 				7825950424627D5500B7603D /* tree.cpp in Sources */,
 				782594F924615D9500B7603D /* animal.cpp in Sources */,
 				7825950224627D4700B7603D /* maze.cpp in Sources */,
+				78259506246505F900B7603D /* linear test routines.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
