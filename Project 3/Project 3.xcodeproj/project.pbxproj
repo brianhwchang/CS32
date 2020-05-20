@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		782594F924615D9500B7603D /* animal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 782594F824615D9500B7603D /* animal.cpp */; };
-		7825950024627D3200B7603D /* linear.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 782594FF24627D3200B7603D /* linear.cpp */; };
-		7825950224627D4700B7603D /* maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7825950124627D4700B7603D /* maze.cpp */; };
-		7825950424627D5500B7603D /* tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7825950324627D5500B7603D /* tree.cpp */; };
+		789F32702473B03A006174F1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F326F2473B03A006174F1 /* main.cpp */; };
+		789F32782473B2E5006174F1 /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F32762473B2E5006174F1 /* utilities.cpp */; };
+		789F327B2473B35E006174F1 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F32792473B35E006174F1 /* Game.cpp */; };
+		789F327E2473B679006174F1 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F327C2473B679006174F1 /* Actor.cpp */; };
+		789F32812473CE26006174F1 /* Dungeon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F327F2473CE26006174F1 /* Dungeon.cpp */; };
+		789F3287247410A2006174F1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F3285247410A2006174F1 /* Player.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		782594F324615D9500B7603D /* CopyFiles */ = {
+		789F326A2473B03A006174F1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -26,15 +28,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		782594F524615D9500B7603D /* Homework 3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Homework 3"; sourceTree = BUILT_PRODUCTS_DIR; };
-		782594F824615D9500B7603D /* animal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = animal.cpp; sourceTree = "<group>"; };
-		782594FF24627D3200B7603D /* linear.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = linear.cpp; sourceTree = "<group>"; };
-		7825950124627D4700B7603D /* maze.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maze.cpp; sourceTree = "<group>"; };
-		7825950324627D5500B7603D /* tree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tree.cpp; sourceTree = "<group>"; };
+		789F326C2473B03A006174F1 /* Project 3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Project 3"; sourceTree = BUILT_PRODUCTS_DIR; };
+		789F326F2473B03A006174F1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		789F32762473B2E5006174F1 /* utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utilities.cpp; sourceTree = "<group>"; };
+		789F32772473B2E5006174F1 /* utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
+		789F32792473B35E006174F1 /* Game.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		789F327A2473B35E006174F1 /* Game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		789F327C2473B679006174F1 /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
+		789F327D2473B679006174F1 /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Actor.h; sourceTree = "<group>"; };
+		789F327F2473CE26006174F1 /* Dungeon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dungeon.cpp; sourceTree = "<group>"; };
+		789F32802473CE26006174F1 /* Dungeon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
+		789F32842473D176006174F1 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		789F3285247410A2006174F1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		789F3286247410A2006174F1 /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		782594F224615D9500B7603D /* Frameworks */ = {
+		789F32692473B03A006174F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -44,68 +54,76 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		782594EC24615D9500B7603D = {
+		789F32632473B03A006174F1 = {
 			isa = PBXGroup;
 			children = (
-				782594F724615D9500B7603D /* Homework 3 */,
-				782594F624615D9500B7603D /* Products */,
+				789F326E2473B03A006174F1 /* Project 3 */,
+				789F326D2473B03A006174F1 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		782594F624615D9500B7603D /* Products */ = {
+		789F326D2473B03A006174F1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				782594F524615D9500B7603D /* Homework 3 */,
+				789F326C2473B03A006174F1 /* Project 3 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		782594F724615D9500B7603D /* Homework 3 */ = {
+		789F326E2473B03A006174F1 /* Project 3 */ = {
 			isa = PBXGroup;
 			children = (
-				782594F824615D9500B7603D /* animal.cpp */,
-				782594FF24627D3200B7603D /* linear.cpp */,
-				7825950124627D4700B7603D /* maze.cpp */,
-				7825950324627D5500B7603D /* tree.cpp */,
+				789F326F2473B03A006174F1 /* main.cpp */,
+				789F327A2473B35E006174F1 /* Game.h */,
+				789F32792473B35E006174F1 /* Game.cpp */,
+				789F32802473CE26006174F1 /* Dungeon.h */,
+				789F327F2473CE26006174F1 /* Dungeon.cpp */,
+				789F327D2473B679006174F1 /* Actor.h */,
+				789F327C2473B679006174F1 /* Actor.cpp */,
+				789F3286247410A2006174F1 /* Player.h */,
+				789F3285247410A2006174F1 /* Player.cpp */,
+				789F32772473B2E5006174F1 /* utilities.h */,
+				789F32762473B2E5006174F1 /* utilities.cpp */,
+				789F32842473D176006174F1 /* globals.h */,
 			);
-			path = "Homework 3";
+			path = "Project 3";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		782594F424615D9500B7603D /* Homework 3 */ = {
+		789F326B2473B03A006174F1 /* Project 3 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 782594FC24615D9500B7603D /* Build configuration list for PBXNativeTarget "Homework 3" */;
+			buildConfigurationList = 789F32732473B03A006174F1 /* Build configuration list for PBXNativeTarget "Project 3" */;
 			buildPhases = (
-				782594F124615D9500B7603D /* Sources */,
-				782594F224615D9500B7603D /* Frameworks */,
-				782594F324615D9500B7603D /* CopyFiles */,
+				789F32682473B03A006174F1 /* Sources */,
+				789F32692473B03A006174F1 /* Frameworks */,
+				789F326A2473B03A006174F1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Homework 3";
-			productName = "Homework 3";
-			productReference = 782594F524615D9500B7603D /* Homework 3 */;
+			name = "Project 3";
+			productName = "Project 3";
+			productReference = 789F326C2473B03A006174F1 /* Project 3 */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		782594ED24615D9500B7603D /* Project object */ = {
+		789F32642473B03A006174F1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Brian Chang";
 				TargetAttributes = {
-					782594F424615D9500B7603D = {
-						CreatedOnToolsVersion = 11.3;
+					789F326B2473B03A006174F1 = {
+						CreatedOnToolsVersion = 11.4.1;
 					};
 				};
 			};
-			buildConfigurationList = 782594F024615D9500B7603D /* Build configuration list for PBXProject "Homework 3" */;
+			buildConfigurationList = 789F32672473B03A006174F1 /* Build configuration list for PBXProject "Project 3" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -113,32 +131,34 @@
 				en,
 				Base,
 			);
-			mainGroup = 782594EC24615D9500B7603D;
-			productRefGroup = 782594F624615D9500B7603D /* Products */;
+			mainGroup = 789F32632473B03A006174F1;
+			productRefGroup = 789F326D2473B03A006174F1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				782594F424615D9500B7603D /* Homework 3 */,
+				789F326B2473B03A006174F1 /* Project 3 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		782594F124615D9500B7603D /* Sources */ = {
+		789F32682473B03A006174F1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7825950024627D3200B7603D /* linear.cpp in Sources */,
-				7825950424627D5500B7603D /* tree.cpp in Sources */,
-				782594F924615D9500B7603D /* animal.cpp in Sources */,
-				7825950224627D4700B7603D /* maze.cpp in Sources */,
+				789F327B2473B35E006174F1 /* Game.cpp in Sources */,
+				789F32782473B2E5006174F1 /* utilities.cpp in Sources */,
+				789F3287247410A2006174F1 /* Player.cpp in Sources */,
+				789F32812473CE26006174F1 /* Dungeon.cpp in Sources */,
+				789F32702473B03A006174F1 /* main.cpp in Sources */,
+				789F327E2473B679006174F1 /* Actor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		782594FA24615D9500B7603D /* Debug */ = {
+		789F32712473B03A006174F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -196,7 +216,7 @@
 			};
 			name = Debug;
 		};
-		782594FB24615D9500B7603D /* Release */ = {
+		789F32722473B03A006174F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -247,7 +267,7 @@
 			};
 			name = Release;
 		};
-		782594FD24615D9500B7603D /* Debug */ = {
+		789F32742473B03A006174F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -255,7 +275,7 @@
 			};
 			name = Debug;
 		};
-		782594FE24615D9500B7603D /* Release */ = {
+		789F32752473B03A006174F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -266,25 +286,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		782594F024615D9500B7603D /* Build configuration list for PBXProject "Homework 3" */ = {
+		789F32672473B03A006174F1 /* Build configuration list for PBXProject "Project 3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				782594FA24615D9500B7603D /* Debug */,
-				782594FB24615D9500B7603D /* Release */,
+				789F32712473B03A006174F1 /* Debug */,
+				789F32722473B03A006174F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		782594FC24615D9500B7603D /* Build configuration list for PBXNativeTarget "Homework 3" */ = {
+		789F32732473B03A006174F1 /* Build configuration list for PBXNativeTarget "Project 3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				782594FD24615D9500B7603D /* Debug */,
-				782594FE24615D9500B7603D /* Release */,
+				789F32742473B03A006174F1 /* Debug */,
+				789F32752473B03A006174F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 782594ED24615D9500B7603D /* Project object */;
+	rootObject = 789F32642473B03A006174F1 /* Project object */;
 }
