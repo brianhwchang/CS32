@@ -39,7 +39,7 @@ Dungeon::~Dungeon()
 
 void Dungeon::playMove()
 {
-    m_player->makeMove();
+    m_player->takeTurn();
 }
 
 void Dungeon::printDungeon()

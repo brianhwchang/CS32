@@ -9,13 +9,16 @@
 #ifndef Dungeon_h
 #define Dungeon_h
 
-#include "Actor.h"
-
 #include <stdio.h>
 #include <vector>
+#include <list>
 #include <iostream>
 
+#include "Actor.h"
 #include "globals.h"
+#include "Object.h"
+
+using namespace std;
 
 class Player;
 class Monster;
@@ -31,6 +34,12 @@ public:
     char getSymbol(int row, int col) {return map[row][col];}
     Player* getPlayer() const {return m_player;}
     Monster* getMonster(int row, int col, Monster* Mon);
+    
+    //@@@@@@@@@@@@@@@@@ ALISSSAAAAAAAAAAA @@@@@@@@@@@@@
+    list<Monster*>& getMonsterList();
+    list<Object*>& getobjectlist();
+    list<string>& getTextList();
+    
     //object* getStair() const;
     //object* getGoldenIdol() const;
     //list<object*>& getObjectList();
@@ -49,6 +58,12 @@ public:
 private:
     char map[18][70];   //2D Char Array that functions as the map.
     Player* m_player;
+    Object* goldenIdol;
+    Object* stairs;
+    list <Monster*> monsterList;
+    list <Object*> objectList;
+    list <string> textList;
+    
     
     char m_currentMove;
     

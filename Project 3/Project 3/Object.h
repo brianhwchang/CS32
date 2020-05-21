@@ -58,8 +58,8 @@ private:
 class Weapon : public Object
 {
 public:
-    Weapon(string name, string action, int dexb, int dmg);
-    Weapon(int row, int col, string name, string action, int dexb, int dmg);
+    Weapon(string name, string action, int dexb, int dmg);                      //for inventory
+    Weapon(int row, int col, string name, string action, int dexb, int dmg);    //for drop
     virtual ~Weapon() {};
     
     int getDex() {return dexBonus;}
@@ -73,18 +73,21 @@ private:
 class Mace : public Weapon
 {
     Mace();
+    Mace(int row, int col);
     ~Mace() {};
 };
 
 class ShortSword : public Weapon
 {
     ShortSword();
+    ShortSword(int row, int col);
     ~ShortSword() {};
 };
 
 class LongSword : public Weapon
 {
     LongSword();
+    LongSword(int row, int col);
     ~LongSword() {};
 };
 
@@ -110,8 +113,8 @@ class MagicFangs : public Weapon
 class Scroll : public Object
 {
 public:
-    Scroll(string name, string action);
-    Scroll(int row, int col, string name, string action);
+    Scroll(string name, string action);                     //for inventory
+    Scroll(int row, int col, string name, string action);   //for drop
     virtual ~Scroll() {}
 };
 

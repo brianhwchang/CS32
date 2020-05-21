@@ -10,7 +10,7 @@
 
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//      WEAPON CLASS IMPLEMENTATIONS
+//      WEAPON CLASS FUNCTIONS
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 //Regular Constructors
@@ -38,6 +38,15 @@ MagicFangs::MagicFangs()
 Weapon::Weapon(int row, int col, string name, string action, int dexb, int dmg)
 :Object(row, col, name, action), dexBonus(dexb), dmgAmt(dmg) { }
 
+Mace::Mace(int row, int col)
+:Weapon(row, col, "mace", "swings", 0, 2) {}
+
+ShortSword::ShortSword(int row, int col)
+:Weapon(row, col, "short sword", "slashes", 0, 2) {}
+
+LongSword::LongSword(int row, int col)
+:Weapon(row, col, "long sword", "swings", 2, 4) {}
+
 MagicAxe::MagicAxe(int row, int col)
 :Weapon(row, col, "magic axe", "chops", 5, 5) {}
 
@@ -46,7 +55,7 @@ MagicFangs::MagicFangs(int row, int col)
 
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//      SCROLL CLASS IMPLEMENTATIONS
+//      SCROLL CLASS FUNCTIONS
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 //Regular Constructors
