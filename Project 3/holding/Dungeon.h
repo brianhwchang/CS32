@@ -9,54 +9,31 @@
 #ifndef Dungeon_h
 #define Dungeon_h
 
-#include "Actor.h"
-
 #include <stdio.h>
 #include <vector>
-#include <iostream>
 
 #include "globals.h"
+#include "Player.h"
 
 class Player;
-class Monster;
 
 class Dungeon
 {
 public:
     Dungeon();
-    ~Dungeon();
     void printDungeon();
-    
-    //getter functions
-    char getSymbol(int row, int col) {return map[row][col];}
-    Player* getPlayer() const {return m_player;}
-    Monster* getMonster(int row, int col, Monster* Mon);
-    //object* getStair() const;
-    //object* getGoldenIdol() const;
-    //list<object*>& getObjectList();
-    //list<monster*>& getMonsterList();
-    
-    //setter functions
-    void setChar(int row, int col, char ch);
-    
-    
-    void spawnPlayer();     //Randomly spawns player in dungeon
-    char getCurrentMove() const { return m_currentMove; };
-    void setCurrentMove(char c) { m_currentMove = c; };
-    void playMove();
+    bool spawnPlayer(int row, int col);
 
     
 private:
-    char map[18][70];   //2D Char Array that functions as the map.
+    char m_Dungeon[MAXROWS][MAXCOLS];
     Player* m_player;
+    vector<Actor> ActorsV;
     
-    char m_currentMove;
     
     //---------------------Helper Functions------------------
     
     bool isValidPos(int row, int col);
-    bool actorPosValid(int row, int col);
-    bool objectPosValid(int row, int col);
 };
 
     //Dungeon has to be 70 cols wide and 18 rows high.

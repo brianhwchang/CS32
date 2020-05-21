@@ -1,6 +1,17 @@
-// Game.cpp
+//
+//  Game.cpp
+//  Project 3
+//
+//  Created by Brian Chang on 5/19/20.
+//  Copyright © 2020 Brian Chang. All rights reserved.
+//
 
 #include "Game.h"
+#include "globals.h"
+#include "Dungeon.h"
+#include "Actor.h"
+#include "Player.h"
+
 #include "utilities.h"
 #include <iostream>
 using namespace std;
@@ -8,24 +19,13 @@ using namespace std;
 // Implement these and other Game member functions you may have added.
 
 Game::Game(int goblinSmellDistance)
-{
-    m_dungeon = new Dungeon();
-}
-
-Game::~Game()
-{
-    delete m_dungeon;
-}
+{}
 
 void Game::play()
 {
     cout << "Press q to exit game." << endl;
     while (getCharacter() != 'q')
-    {
-        char move = getCharacter();
-        m_dungeon->setCurrentMove(move);
-        m_dungeon->playMove();
-    }
+        ;
 }
 
 // You will presumably add to this project other .h/.cpp files for the

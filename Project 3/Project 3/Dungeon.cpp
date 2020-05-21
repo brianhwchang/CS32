@@ -19,15 +19,28 @@ Dungeon::Dungeon()
         for (int c = 0; c < MAXCOLS; c++)
         {
             if (r == 0 || r == 17)              //top row and bottom row are walls
-                m_Dungeon[r][c] = '#';
+                map[r][c] = '#';
             else if (c == 0 || c == 69)              //leftmost and rightmost cols are walls.
-                m_Dungeon[r][c] = '#';
+                map[r][c] = '#';
             else
-                m_Dungeon[r][c] = ' ';
+                map[r][c] = ' ';
         }
+    
+    m_player = new Player(this);
 }
 
+Dungeon::~Dungeon()
+{
+    if (m_player != nullptr) {
+        delete m_player;
+        m_player = nullptr;
+    }
+}
 
+void Dungeon::playMove()
+{
+    m_player->makeMove();
+}
 
 void Dungeon::printDungeon()
 {
@@ -35,30 +48,55 @@ void Dungeon::printDungeon()
     {
         for (int c = 0; c < MAXCOLS; c++)
         {
-            cout << m_Dungeon[r][c];
+            cout << map[r][c];
         }
     cout << endl;
     }
 }
 
-bool Dungeon::spawnPlayer(int row, int col)
+//TODO: SPAWN PLAYER FXN.
+//bool Dungeon::spawnPlayer(int row, int col)
+//{
+//    if (! isPostionValid(row, col))           //make sure the spot isnt occupied by a wall or another actor.
+//        return false;
+//
+//    if (m_player != nullptr)                  //Only one player per dungeon (per game)
+//        return false;
+//
+//    m_player = new Player(this, r, c);
+//    return true;
+//}
+
+void Dungeon::setChar(int row, int col, char ch)
 {
-    if (! isPostionValid(row, col))           //make sure the spot isnt occupied by a wall or another actor.
-        return false;
-
-    if (m_player != nullptr)                  //Only one player per dungeon (per game)
-        return false;
-
-    m_player = new Player(this, r, c);
-    return true;
+    map[row][col] = ch;
 }
 
-bool Dungeon::isPostionValid(int row, int col)
+void Dungeon::spawnPlayer()
 {
-    if (row <= 0 || row >= MAXROWS || col <= 0 || col >= MAXCOLS)
-        return false;
+    int temp_row, temp_col;
+    do {
+        temp_row = randInt(1,17);       //@@@@@@@@@@@@@@@ ASK ALISSA
+        temp_col = randInt(1,69);
+    } while (!actorPosValid(temp_row, temp_col));
     
-    if (m_Dungeon[row][col] == '#' || m_Dungeon[row][col] == 'B' || m_Dungeon[row][col] == 'D' || m_Dungeon[row][col] == 'S'|| m_Dungeon[row][col] == 'G' || m_Dungeon[row][col] == '@')
+    m_player->setPosition(temp_row, temp_col);
+    //m_Dungeon->setChar(temp_row, temp_col, '@');   //@@@@@@@ ASK ALISSA @@@@@@@@@@@
+}
+
+
+
+bool Dungeon::actorPosValid(int row, int col)   //returns true as long as position isn't occupied by a wall or another actor.
+{
+    if (getSymbol(row, col) == '#' || getSymbol(row, col) == '@' || getSymbol(row, col) == 'B' || getSymbol(row, col) == 'G' || getSymbol(row, col) == 'S' || getSymbol(row, col) == 'D')
+        return false;
+    else
+        return true;
+}
+
+bool Dungeon::objectPosValid(int row, int col) //returns true as long as position isnt occupied by walls, another object, or stairs.
+{
+    if (getSymbol(row, col) == '#' || getSymbol(row, col) == '?' || getSymbol(row, col) == ')' || getSymbol(row, col) == '>' || getSymbol(row, col) == '&')
         return false;
     else
         return true;

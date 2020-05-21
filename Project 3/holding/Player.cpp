@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "Actor.h"
 
-bool Player::isDead()
+void Player::makemove()
 {
-    return dead;
+    
 }

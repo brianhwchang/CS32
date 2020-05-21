@@ -1,3 +1,10 @@
+//
+//  utilities.cpp
+//  Project 3
+//
+//  Created by Brian Chang on 5/19/20.
+//  Copyright © 2020 Brian Chang. All rights reserved.
+
 // utilities.cpp
 
 // Note:  YOU MUST NOT MAKE ANY CHANGE TO THIS FILE!
@@ -65,7 +72,7 @@ void clearScreen()
     COORD upperLeft = { 0, 0 };
     DWORD dwCharsWritten;
     FillConsoleOutputCharacter(hConsole, TCHAR(' '), dwConSize, upperLeft,
-							&dwCharsWritten);
+                            &dwCharsWritten);
     SetConsoleCursorPosition(hConsole, upperLeft);
 }
 

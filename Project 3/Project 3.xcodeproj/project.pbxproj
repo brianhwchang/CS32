@@ -12,7 +12,7 @@
 		789F327B2473B35E006174F1 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F32792473B35E006174F1 /* Game.cpp */; };
 		789F327E2473B679006174F1 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F327C2473B679006174F1 /* Actor.cpp */; };
 		789F32812473CE26006174F1 /* Dungeon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F327F2473CE26006174F1 /* Dungeon.cpp */; };
-		789F3287247410A2006174F1 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F3285247410A2006174F1 /* Player.cpp */; };
+		789F328A24761023006174F1 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789F328824761023006174F1 /* Object.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,8 +39,8 @@
 		789F327F2473CE26006174F1 /* Dungeon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dungeon.cpp; sourceTree = "<group>"; };
 		789F32802473CE26006174F1 /* Dungeon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		789F32842473D176006174F1 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
-		789F3285247410A2006174F1 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
-		789F3286247410A2006174F1 /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		789F328824761023006174F1 /* Object.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cpp; sourceTree = "<group>"; };
+		789F328924761023006174F1 /* Object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +80,8 @@
 				789F327F2473CE26006174F1 /* Dungeon.cpp */,
 				789F327D2473B679006174F1 /* Actor.h */,
 				789F327C2473B679006174F1 /* Actor.cpp */,
-				789F3286247410A2006174F1 /* Player.h */,
-				789F3285247410A2006174F1 /* Player.cpp */,
+				789F328924761023006174F1 /* Object.h */,
+				789F328824761023006174F1 /* Object.cpp */,
 				789F32772473B2E5006174F1 /* utilities.h */,
 				789F32762473B2E5006174F1 /* utilities.cpp */,
 				789F32842473D176006174F1 /* globals.h */,
@@ -148,7 +148,7 @@
 			files = (
 				789F327B2473B35E006174F1 /* Game.cpp in Sources */,
 				789F32782473B2E5006174F1 /* utilities.cpp in Sources */,
-				789F3287247410A2006174F1 /* Player.cpp in Sources */,
+				789F328A24761023006174F1 /* Object.cpp in Sources */,
 				789F32812473CE26006174F1 /* Dungeon.cpp in Sources */,
 				789F32702473B03A006174F1 /* main.cpp in Sources */,
 				789F327E2473B679006174F1 /* Actor.cpp in Sources */,

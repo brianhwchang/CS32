@@ -18,12 +18,10 @@ class Dungeon;
 class Player : public Actor
 {
 public:
-    
+    virtual void makemove();
     
 private:
     Dungeon* m_dungeon;
-    int m_row;
-    int m_col;
     
 };
 
