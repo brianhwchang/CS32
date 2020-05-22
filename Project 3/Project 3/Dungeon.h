@@ -36,9 +36,9 @@ public:
     Monster* getMonster(int row, int col, Monster* Mon);
     
     //@@@@@@@@@@@@@@@@@ ALISSSAAAAAAAAAAA @@@@@@@@@@@@@
-    list<Monster*>& getMonsterList();
-    list<Object*>& getobjectlist();
-    list<string>& getTextList();
+    list<Monster*>& getMonsterList() {return monsterList;}
+    list<Object*>& getObjectList() {return objectList;}
+    list<string>& getTextList() {return textList;}
     
     //object* getStair() const;
     //object* getGoldenIdol() const;
@@ -46,10 +46,13 @@ public:
     //list<monster*>& getMonsterList();
     
     //setter functions
+    void drawDungeon();
     void setChar(int row, int col, char ch);
-    
-    
     void spawnPlayer();     //Randomly spawns player in dungeon
+    void spawnMonster(string name); //randomly spawns specified monster
+    void spawnObjects();
+    
+    void removeDead();
     char getCurrentMove() const { return m_currentMove; };
     void setCurrentMove(char c) { m_currentMove = c; };
     void playMove();
@@ -62,7 +65,10 @@ private:
     Object* stairs;
     list <Monster*> monsterList;
     list <Object*> objectList;
-    list <string> textList;
+    list <string> textList;         //could be done as a vector but I dont think its a big deal
+    
+    int level;
+    int n_objects;
     
     
     char m_currentMove;

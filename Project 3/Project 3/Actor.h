@@ -17,13 +17,12 @@ class Actor
 {
 public:
     //Constructor and Destructor
-    Actor(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string species);
+    Actor(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     virtual ~Actor();
     
     
     virtual void takeTurn() = 0;            //pure virtual function, such that Actor is an abstract base class.
     void attack(Actor* attacker, Actor* defender);
-    //TODO: Attack Function
     //TODO: Move/Take turn
     
     //Setter Functions
@@ -101,6 +100,7 @@ public:
     void openIventory();            //open inventory with 'i'
     void descend();                 //descend to lower level with '>'
     void cheat();                   //sets the player's strength to 9 and maximum hit points to 50.
+    bool standingOnObject();
     
     //misc
     list<Object*> getInventory();
@@ -121,17 +121,14 @@ private:
 class Monster : public Actor
 {
 public:
-    Monster(int row, int col, int healthPoints, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string species);
+    Monster(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     virtual ~Monster() {};
     
-    virtual void takeTurn();
-    virtual void dropItem() = 0;
-    bool CanSmellPlayer(Dungeon* dungeon, int ReqDist);
-    void dropItem(Dungeon* dungeon, Monster* mon);
+    virtual void takeTurn() = 0;
     
-    
-    
-    
+    void dropItem(Monster* monster, Dungeon* dungeon);
+    bool CanSmellPlayer(Dungeon* dungeon, int ReqDist);                     //Used by Bogeymen and Snakewomen.
+    char ChasePlayer(Monster* monster, Player* player, Dungeon* dungeon);   //Used by Bogeymen and Snakewomen.
 };
 
 const int BOGEY_HP             = randInt(5, 10);
@@ -149,7 +146,6 @@ class Bogeyman : public Monster
     ~Bogeyman();
 
     virtual void takeTurn();
-    virtual void dropItem();
     
     //if there are 5 or fewer spaces between the player and BG, the bg can smell the player
     //If the BG smells the player, it'll move closer.

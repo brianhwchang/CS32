@@ -72,6 +72,7 @@ private:
 
 class Mace : public Weapon
 {
+public:
     Mace();
     Mace(int row, int col);
     ~Mace() {};
@@ -79,6 +80,7 @@ class Mace : public Weapon
 
 class ShortSword : public Weapon
 {
+public:
     ShortSword();
     ShortSword(int row, int col);
     ~ShortSword() {};
@@ -86,6 +88,7 @@ class ShortSword : public Weapon
 
 class LongSword : public Weapon
 {
+public:
     LongSword();
     LongSword(int row, int col);
     ~LongSword() {};
@@ -93,6 +96,7 @@ class LongSword : public Weapon
 
 class MagicAxe : public Weapon
 {
+public:
     MagicAxe();
     MagicAxe(int row, int col);         //Drop Constructor
     ~MagicAxe() {};
@@ -100,6 +104,7 @@ class MagicAxe : public Weapon
 
 class MagicFangs : public Weapon
 {
+public:
     MagicFangs();
     MagicFangs(int row, int col);       //Drop Constructor
     ~MagicFangs() {};
@@ -120,6 +125,7 @@ public:
 
 class HPScroll : public Scroll
 {
+public:
     HPScroll();
     HPScroll(int row, int col);
     ~HPScroll() {}
@@ -127,6 +133,7 @@ class HPScroll : public Scroll
 
 class ArmorScroll : public Scroll
 {
+public:
     ArmorScroll();
     ArmorScroll(int row, int col);
     ~ArmorScroll() {}
@@ -134,6 +141,7 @@ class ArmorScroll : public Scroll
 
 class StrengthScroll : public Scroll
 {
+public:
     StrengthScroll();
     StrengthScroll(int row, int col);
     ~StrengthScroll() {}
@@ -141,13 +149,17 @@ class StrengthScroll : public Scroll
 
 class DexScroll : public Scroll
 {
+public:
     DexScroll();
     DexScroll(int row, int col);
     ~DexScroll() {}
 };
 
+
+//TODO: IMPLEMENT
 class TPScroll : public Scroll
 {
+public:
     TPScroll();
     TPScroll(int row, int col);
     ~TPScroll() {};
