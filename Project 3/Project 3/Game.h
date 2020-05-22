@@ -6,6 +6,7 @@
 
 // You may add data members and other member functions to this class.
 #include "Dungeon.h"
+#include "Actor.h"
 
 class Game
 {
@@ -30,6 +31,7 @@ public:
 private:
 
     Dungeon* m_dungeon;
+    Player* m_player;
 };
 
 #endif // GAME_INCLUDED

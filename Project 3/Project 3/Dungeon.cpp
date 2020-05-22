@@ -18,10 +18,12 @@ using namespace std;
 
 Dungeon::Dungeon()
 {
-    drawDungeon();
+    drawDungeon();                  //make the box.
     level = 0;                      //start at top level 0
-    n_objects = randInt(2, 3);      //spawn between 2-3 objects per level
-    m_player = new Player(this);
+    m_player = new Player(this);    //create player actor.
+    spawnPlayer();                  //Randomly spawn in the map.
+    genMonsters();
+    spawnMonsters();
 }
 
 Dungeon::~Dungeon()
@@ -42,16 +44,20 @@ Dungeon::~Dungeon()
     //TODO: CLEAR MEMORY FOR STAIRS AND GOLDEN IDOL
 }
 
-//genMonsters();
-//looks at the level to decide number (using formula)
-//creates a random number of monsters
 
+void Dungeon::setChar(int row, int col, char ch)
+{
+    map[row][col] = ch;
+}
+
+
+// Creates new monster instances to be stored in the MonsterList, number of monsters is based on the level of the dungeon.
 void Dungeon::genMonsters()
 {
     // M randomly placed monsters, where M = randInt(2, 5*(L+1)+1) (So, for example, level 3 will have between 2 and 21 monsters.)
     int n_mobs = randInt(2, 5*(level+1)+1 );
 
-    if (level < 2) //only goblins and snakewomen
+    if (level < 2) // Only goblins and snakewomen
     {
         for (int i = 0; i < n_mobs; i++)
         {
@@ -65,7 +71,7 @@ void Dungeon::genMonsters()
         }
     }
     
-    else if (level == 2) //Goblins, Snakes, and Bogeyboys
+    else if (level == 2) //Goblins, Snakes, and Bogeybois
     {
         for (int i = 0; i < n_mobs; i++)
         {
@@ -80,7 +86,7 @@ void Dungeon::genMonsters()
         }
     }
     
-    else if (level > 2)     //Goblins, Snakes, Bogeybuddies, and Dragoons.
+    else if (level > 2)     //Gibbons, Snekes, Bogeyboards, and Dragoons.
     {
         for (int i = 0; i < n_mobs; i++)
         {
@@ -98,14 +104,92 @@ void Dungeon::genMonsters()
     }
 }
 
-//spawnmonsters
-//goes through the list and puts them on the map
 
 //genObjects
+// Generates new objects to fill the object list.
+void Dungeon::genObjects()
+{
+    int n_obs = randInt(2, 3);
+    for (int i = 0; i < n_obs; i++)
+    {
+        int whosThatPokemon = randInt(1, 7);
+        switch (whosThatPokemon)
+        {
+            case 1:
+                objectList.push_back(new ShortSword);
+                break;
+            case 2:
+                objectList.push_back(new LongSword);
+                break;
+            case 3:
+                objectList.push_back(new Mace);
+                break;
+            case 4:
+                objectList.push_back(new HPScroll);
+                break;
+            case 5:
+                objectList.push_back(new ArmorScroll);
+                break;
+            case 6:
+                objectList.push_back(new StrengthScroll);
+                break;
+            case 7:
+                objectList.push_back(new DexScroll);
+                break;
+            default:
+                break;
+        }
+    }
+}
 
+void Dungeon::spawnPlayer()         //randomly plops the player in the dungeon.
+{
+    int temp_row;
+    int temp_col;         //create temp vars to hold coordinates.
+    
+    do {
+        temp_row = randInt(1,17);
+        temp_col = randInt(1,69);
+    } while (!actorPosValid(temp_row, temp_col));
+    
+    m_player->setPosition(temp_row, temp_col);
+    setChar(temp_row, temp_col, '@');
+}
+
+
+//spawnmonsters
+// iterates through the monster list, spawning them 1 by 1, randomly.
+void Dungeon::spawnMonsters()
+{
+    int temp_row;
+    int temp_col;
+    
+    for (list<Monster*>::iterator mon = monsterList.begin(); mon != monsterList.end(); mon++)
+    {
+        do {
+            temp_row = randInt(1,17);
+            temp_col = randInt(1,69);
+        } while (!actorPosValid(temp_row, temp_col));
+        (*mon)->setPosition(temp_row, temp_col);
+    }
+}
 
 //spawnobjects
 //goes through list and puts them on the map
+void Dungeon::spawnObjects()
+{
+    int temp_row;
+    int temp_col;
+    
+    for (list<Object*>::iterator obj = objectList.begin(); obj != objectList.end(); obj++)
+    {
+        do {
+            temp_row = randInt(1,17);
+            temp_col = randInt(1,69);
+        } while (!objectPosValid(temp_row, temp_col));
+        (*obj)->setPos(temp_row, temp_col);
+    }
+}
 
 
 void Dungeon::playMove()
@@ -191,27 +275,6 @@ void Dungeon::printDungeon()
 
 
 
-
-
-void Dungeon::setChar(int row, int col, char ch)
-{
-    map[row][col] = ch;
-}
-
-//TODO: SPAWN PLAYER FXN.
-
-void Dungeon::spawnPlayer()
-{
-    int temp_row, temp_col;
-    
-    do {
-        temp_row = randInt(1,17);       //@@@@@@@@@@@@@@@ ASK ALISSA
-        temp_col = randInt(1,69);
-    } while (!actorPosValid(temp_row, temp_col));
-    
-    m_player->setPosition(temp_row, temp_col);
-    setChar(temp_row, temp_col, '@');   //@@@@@@@ ASK ALISSA @@@@@@@@@@@
-}
 
 //void Dungeon::spawnMonster(string name)          //should take in what kind of monster right?
 //{

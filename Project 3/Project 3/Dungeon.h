@@ -47,6 +47,7 @@ public:
     //setter functions
     void drawDungeon();
     void setChar(int row, int col, char ch);
+    void genPlayer();       //generate 1 player.
     void genMonsters();     //generate new monsters
     void genObjects();      //generate new objects
     void spawnPlayer();     //Randomly spawns player in dungeon
@@ -70,9 +71,9 @@ private:
     Player* m_player;
     Object* goldenIdol;
     Object* stairs;
-    list <Monster*> monsterList;
-    list <Object*> objectList;
-    list <string> textList;         //could be done as a vector but I dont think its a big deal
+    list<Monster*> monsterList;
+    list<Object*> objectList;
+    list<string> textList;         //could be done as a vector but I dont think its a big deal
     
     int level;
     int n_objects;
