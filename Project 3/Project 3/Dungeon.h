@@ -29,28 +29,35 @@ public:
     Dungeon();
     ~Dungeon();
     void printDungeon();
-    
+
     //getter functions
     char getSymbol(int row, int col) {return map[row][col];}
     Player* getPlayer() const {return m_player;}
     Monster* getMonster(int row, int col, Monster* Mon);
-    
-    //@@@@@@@@@@@@@@@@@ ALISSSAAAAAAAAAAA @@@@@@@@@@@@@
+
     list<Monster*>& getMonsterList() {return monsterList;}
     list<Object*>& getObjectList() {return objectList;}
     list<string>& getTextList() {return textList;}
-    
+
     //object* getStair() const;
     //object* getGoldenIdol() const;
     //list<object*>& getObjectList();
     //list<monster*>& getMonsterList();
-    
+
     //setter functions
     void drawDungeon();
     void setChar(int row, int col, char ch);
+    void genMonsters();     //generate new monsters
+    void genObjects();      //generate new objects
     void spawnPlayer();     //Randomly spawns player in dungeon
-    void spawnMonster(string name); //randomly spawns specified monster
-    void spawnObjects();
+    void spawnObjects();    //spawn objects in map.
+    void spawnMonsters();   //spawn Monsters in map.
+
+    //---------------------Helper Functions------------------
+    
+    bool isValidPos(int row, int col);
+    bool actorPosValid(int row, int col);
+    bool objectPosValid(int row, int col);
     
     void removeDead();
     char getCurrentMove() const { return m_currentMove; };
@@ -69,15 +76,7 @@ private:
     
     int level;
     int n_objects;
-    
-    
     char m_currentMove;
-    
-    //---------------------Helper Functions------------------
-    
-    bool isValidPos(int row, int col);
-    bool actorPosValid(int row, int col);
-    bool objectPosValid(int row, int col);
 };
 
     //Dungeon has to be 70 cols wide and 18 rows high.

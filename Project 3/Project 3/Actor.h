@@ -17,6 +17,8 @@ class Actor
 {
 public:
     //Constructor and Destructor
+    Actor(int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
+    Actor(int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     Actor(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     virtual ~Actor();
     
@@ -26,23 +28,10 @@ public:
     //TODO: Move/Take turn
     
     //Setter Functions
+    void setHP(int amt) {m_hp = amt;}
+    void setMaxHP (int amt) {m_maxHP = amt;}
     void setPosition(int r, int c) { m_row = r; m_col = c; }
     void setWeapon(Weapon* weapon);
-    
-    //Position Getters
-    int getRowPos() {return m_row;}
-    int getColPos() {return m_col;}
-    //Stat Getters
-    int getHP() {return m_hp;}
-    int getMaxHP() {return m_maxHP;}
-    int getArmor() {return m_armor;}
-    int getStrength() {return m_strength;}
-    int getDex() {return m_dex;}
-    int getSleepTime() {return m_sleepTime;}
-    //Misc Getters
-    string getName() {return m_name;}
-    Dungeon* getDungeon() const { return m_dungeon;}
-    Weapon* getWeapon() const { return m_weapon;}
     
     //Incrementer Functions
     void addHP(int amt);
@@ -56,22 +45,43 @@ public:
     void reduceHP(int amt) {m_hp = m_hp - amt;}
     void reduceSleepTime(int amt) {m_sleepTime = m_sleepTime - amt;}
     
-    //Helper Functions
+    //Position Getters
+    int getRowPos() {return m_row;}
+    int getColPos() {return m_col;}
+    
+    //Stat Getters
+    int getHP() {return m_hp;}
+    int getMaxHP() {return m_maxHP;}
+    int getArmor() {return m_armor;}
+    int getStrength() {return m_strength;}
+    int getDex() {return m_dex;}
+    int getSleepTime() {return m_sleepTime;}
+    
+    // Misc Setters
+    // Sets the last space of an actor to SPACE. Would be called before
+    // updating an actors m_row/m_col attributes to clear it's dungeon's grid
+    void clearLastPositionOnMap();
+    
+    //Misc Getters
+    string getName() {return m_name;}
+    Dungeon* getDungeon() { return m_dungeon;}
+    Weapon* getWeapon() { return m_weapon;}
     bool isDead();
     bool isAsleep();
+
     
 private:
-    int m_row;
-    int m_col;
-    int m_hp;
-    int m_maxHP;
-    int m_armor;
-    int m_strength;
-    int m_dex;
-    int m_sleepTime;
-    string m_name;
-    Weapon* m_weapon;
-    Dungeon* m_dungeon;
+    int m_row;                          // Current row
+    int m_col;                          // Current column
+    int m_hp;                           // Current HP
+    int m_maxHP;                        // Maximum HP
+    int m_armor;                        // Armor
+    int m_strength;                     // Strength
+    int m_dex;                          // Dexterity
+    int m_sleepTime;                    // Sleep time
+    string m_name;                      // String representation of actor type
+    Weapon* m_weapon;                   // Pointer to a weapon
+    Dungeon* m_dungeon;                 // Dungeon this actor is in
 };
 
 
@@ -122,30 +132,28 @@ class Monster : public Actor
 {
 public:
     Monster(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
+    
+    Monster(int healthPoints, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
+    
+    Monster(int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     virtual ~Monster() {};
     
-    virtual void takeTurn() = 0;
+    virtual void takeTurn() {};
     
-    void dropItem(Monster* monster, Dungeon* dungeon);
+    void dropItem(Dungeon* dungeon);
     bool CanSmellPlayer(Dungeon* dungeon, int ReqDist);                     //Used by Bogeymen and Snakewomen.
-    char ChasePlayer(Monster* monster, Player* player, Dungeon* dungeon);   //Used by Bogeymen and Snakewomen.
+    char chasePlayer(Player* player, Dungeon* dungeon);   //Used by Bogeymen and Snakewomen.
 };
 
-const int BOGEY_HP             = randInt(5, 10);
-const int BOGEY_ARMOR          = 2;
-const int BOGEY_STRENGTH       = randInt(2, 3);
-const int BOGEY_DEXTERITY      = randInt(2, 3);
-const int BOGEY_SLEEP_TIME     = 0;
-//Weapon ShortSword
 
 class Bogeyman : public Monster
 {
     //only spawn at level 2 or deeper.
-
+public:
     Bogeyman(Dungeon* dungeon);
     ~Bogeyman();
 
-    virtual void takeTurn();
+//    virtual void takeTurn();
     
     //if there are 5 or fewer spaces between the player and BG, the bg can smell the player
     //If the BG smells the player, it'll move closer.
@@ -157,23 +165,15 @@ class Bogeyman : public Monster
 };
 
 
-
-const int SNAKE_HP             = randInt(3, 6);
-const int SNAKE_ARMOR          = 3;
-const int SNAKE_STRENGTH       = 2;
-const int SNAKE_DEXTERITY      = 3;
-const int SNAKE_SLEEP_TIME     = 0;
-// Weapon: Magic Fangs of Sleep
-
 class Snakewoman : public Monster
 {
     //Spawn at all levels.
-    
+public:
     Snakewoman(Dungeon* dungeon);
     ~Snakewoman();
     
-    virtual void takeTurn();
-    virtual void dropItem();
+//    virtual void takeTurn();
+//    virtual void dropItem();
 
     //if it can reach the player in 3 or fewer moves, it can smell player. (bool - Can smell player (SW coord, Player Coord, max dist)
         // can smell if (Delta X + Delta Y <= 3)
@@ -185,13 +185,6 @@ class Snakewoman : public Monster
 };
 
 
-const int DRAGON_HP             = randInt(20, 25);
-const int DRAGON_ARMOR          = 4;
-const int DRAGON_STRENGTH       = 4;
-const int DRAGON_DEXTERITY      = 4;
-const int DRAGON_SLEEP_TIME     = 0;
-//const int DRAGON_WEAPON         = LONG_SWORD;
-
 class Dragon : public Monster
 {
     //Spawns at level 3 or deeper.
@@ -199,12 +192,12 @@ class Dragon : public Monster
     // Between 20 to 25 HP
     // 4 Armor, 4 Strength, 4 Dex.
     // Weapon: Long Sword
-    
+public:
     Dragon(Dungeon* dungeon);
     ~Dragon();
     
-    virtual void takeTurn();
-    virtual void dropItem();
+//    virtual void takeTurn();
+//    virtual void dropItem();
 
     // 1/10 chance of regaining 1 HP at start of turn.
     // 100% chance of dropping a scroll upon death.
@@ -212,14 +205,6 @@ class Dragon : public Monster
 
 
 //fuckin goblins.
-
-const int GOBLIN_HP             = randInt(15, 20);
-const int GOBLIN_ARMOR          = 1;
-const int GOBLIN_STRENGTH       = 3;
-const int GOBLIN_DEXTERITY      = 1;
-const int GOBLIN_SLEEP_TIME     = 0;
-//const int GOBLIN_WEAPON         = SHORT_SWORD;  No longer relevant, designed weapon class
-
 class Goblin : public Monster
 {
     // Spawn at all levels.
@@ -229,13 +214,13 @@ class Goblin : public Monster
     // 3 Strength
     // 1 Dex
     // Weapon: Short Sword
-    
+public:
     Goblin(Dungeon* dungeon);
     ~Goblin();
     
-    virtual void takeTurn();
-    virtual void dropItem();
-    bool pathExists();
+//    virtual void takeTurn();
+//    virtual void dropItem();
+//    bool pathExists();
     
     
 

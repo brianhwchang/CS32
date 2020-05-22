@@ -20,11 +20,39 @@ Game::~Game()
 void Game::play()
 {
     cout << "Press q to exit game." << endl;
-    while (getCharacter() != 'q')
+    char move = 0;
+    while (move != 'q')
     {
-        char move = getCharacter();
-        m_dungeon->setCurrentMove(move);
-        m_dungeon->playMove();
+        // Display the board
+        m_dungeon->printDungeon();
+        // Get the current input by user
+        move = getCharacter();
+        
+        // Process input
+        switch(move) {
+            case ARROW_UP:
+            case ARROW_LEFT:
+            case ARROW_RIGHT:
+            case ARROW_DOWN:
+                m_dungeon->setCurrentMove(move);
+                // TODO: might be better to use this "playMove" function for all of the rest of the actions,
+                // for now, just leave like this
+                m_dungeon->playMove();
+                break;
+            case OBJECT_PICK_UP:
+            case WIELD_WEAPON:
+            case READ_SCROLL:
+            case INVENTORY:
+            case DESCEND_STAIR:
+            case QUIT:
+                return;
+            case CHEAT:
+            default:
+                // TODO: error handling?
+                continue;
+        }
+        clearScreen();
+            
     }
 }
 

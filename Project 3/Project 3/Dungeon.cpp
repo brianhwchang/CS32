@@ -11,6 +11,7 @@
 #include "globals.h"
 
 #include <string>
+#include <list>
 #include <iostream>
 
 using namespace std;
@@ -45,13 +46,67 @@ Dungeon::~Dungeon()
 //looks at the level to decide number (using formula)
 //creates a random number of monsters
 
+void Dungeon::genMonsters()
+{
+    // M randomly placed monsters, where M = randInt(2, 5*(L+1)+1) (So, for example, level 3 will have between 2 and 21 monsters.)
+    int n_mobs = randInt(2, 5*(level+1)+1 );
+
+    if (level < 2) //only goblins and snakewomen
+    {
+        for (int i = 0; i < n_mobs; i++)
+        {
+            bool snake = trueWithProbability(1.0/2.0);
+            if (snake)
+            {
+                monsterList.push_back(new Snakewoman(this));
+            }
+            else
+                monsterList.push_back(new Goblin(this));
+        }
+    }
+    
+    else if (level == 2) //Goblins, Snakes, and Bogeyboys
+    {
+        for (int i = 0; i < n_mobs; i++)
+        {
+            int whoDatBoi = randInt(1, 3);
+            
+            if (whoDatBoi == 1)
+                monsterList.push_back(new Snakewoman(this));
+            else if (whoDatBoi == 2)
+                monsterList.push_back(new Goblin(this));
+            else if (whoDatBoi == 3)
+                monsterList.push_back(new Bogeyman(this));
+        }
+    }
+    
+    else if (level > 2)     //Goblins, Snakes, Bogeybuddies, and Dragoons.
+    {
+        for (int i = 0; i < n_mobs; i++)
+        {
+            int whoHimIs = randInt(1, 4);
+            
+            if (whoHimIs == 1)
+                monsterList.push_back(new Snakewoman(this));
+            else if (whoHimIs == 2)
+                monsterList.push_back(new Goblin(this));
+            else if (whoHimIs == 3)
+                monsterList.push_back(new Bogeyman(this));
+            else if (whoHimIs == 4)
+                monsterList.push_back(new Dragon(this));
+        }
+    }
+}
+
 //spawnmonsters
 //goes through the list and puts them on the map
 
 //genObjects
 
+
 //spawnobjects
 //goes through list and puts them on the map
+
 
 void Dungeon::playMove()
 {
@@ -138,37 +193,6 @@ void Dungeon::printDungeon()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void Dungeon::setChar(int row, int col, char ch)
 {
     map[row][col] = ch;
@@ -208,18 +232,26 @@ void Dungeon::spawnPlayer()
 //    }
 //}
 
-
-bool Dungeon::actorPosValid(int row, int col)   //returns true as long as position isn't occupied by a wall or another actor.
+bool Dungeon::actorPosValid(int row, int col)   // returns true as long as position isn't occupied by a wall or another actor.
 {
-    if (getSymbol(row, col) == '#' || getSymbol(row, col) == '@' || getSymbol(row, col) == 'B' || getSymbol(row, col) == 'G' || getSymbol(row, col) == 'S' || getSymbol(row, col) == 'D')
+    if (getSymbol(row, col) == WALL_DISPLAY
+        || getSymbol(row, col) == PLAYER_DISPLAY
+        || getSymbol(row, col) == BOGEYMAN_DISPLAY
+        || getSymbol(row, col) == GOBLIN_DISPLAY
+        || getSymbol(row, col) == SNAKEWOMAN_DISPLAY
+        || getSymbol(row, col) == DRAGON_DISPLAY )
         return false;
     else
         return true;
 }
 
-bool Dungeon::objectPosValid(int row, int col) //returns true as long as position isnt occupied by walls, another object, or stairs.
+bool Dungeon::objectPosValid(int row, int col) // returns true as long as position isnt occupied by walls, another object, or stairs.
 {
-    if (getSymbol(row, col) == '#' || getSymbol(row, col) == '?' || getSymbol(row, col) == ')' || getSymbol(row, col) == '>' || getSymbol(row, col) == '&')
+    if (getSymbol(row, col) == WALL_DISPLAY
+        || getSymbol(row, col) == SCROLL_DISPLAY
+        || getSymbol(row, col) == WEAPON_DISPLAY
+        || getSymbol(row, col) == STAIR_DISPLAY
+        || getSymbol(row, col) == GOLDEN_IDOL_DISPLAY)
         return false;
     else
         return true;

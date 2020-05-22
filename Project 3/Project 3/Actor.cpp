@@ -1,6 +1,7 @@
 #include "Actor.h"
 #include "Dungeon.h"
 #include "Object.h"
+#include "Game.h"
 
 //All actors must have:
 //Postion
@@ -13,10 +14,25 @@
 
 #include <iostream>
 
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//--------------ACTOR CLASS-------------------
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+// Constructor without speifying positon or health (for dragons)
+Actor::Actor(int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
+:m_armor(armor), m_strength(strength), m_dex(dex), m_weapon(weapon), m_sleepTime(sleepTime), m_dungeon(dungeon), m_name(name) { }
+
+// Constructor without specifying position
+Actor::Actor(int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
+: m_hp(HP), m_maxHP(maxHP), m_armor(armor), m_strength(strength), m_dex(dex), m_weapon(weapon), m_sleepTime(sleepTime), m_dungeon(dungeon), m_name(name) { }
+
+// Constructor specifying position
 Actor::Actor(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
 : m_row(row), m_col(col), m_hp(HP), m_maxHP(maxHP), m_armor(armor), m_strength(strength), m_dex(dex), m_weapon(weapon), m_sleepTime(sleepTime), m_dungeon(dungeon), m_name(name) { }
 
 Actor::~Actor() {delete m_weapon;}
+
+
 
 void Actor::addHP(int amt)
 {
@@ -29,6 +45,12 @@ void Actor::addHP(int amt)
     else
         return;
 }
+
+void Actor::clearLastPositionOnMap()
+{
+    m_dungeon->setChar(m_row, m_col, EMPTY);
+}
+
 
 void Actor::attack(Actor* attacker, Actor* defender)
 {
@@ -111,19 +133,6 @@ void Actor::attack(Actor* attacker, Actor* defender)
 }
 
 
-
-//Player strikes magic fangs at the Goblin and hits, putting the Goblin to sleep.
-
-
-
-
-
-
-
-
-
-
-
 //Status Checkers
 
 bool Actor::isDead()
@@ -154,46 +163,46 @@ const int PLAYER_STRENGTH       = 2;
 const int PLAYER_DEXTERITY      = 2;
 const int PLAYER_SLEEP_TIME     = 0;
 
-
 Player::Player(Dungeon* dungeon)
-: Actor(69, 69, PLAYER_HP, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_STRENGTH, PLAYER_DEXTERITY, new ShortSword, PLAYER_SLEEP_TIME, dungeon, "Player")
+: Actor(PLAYER_HP, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_STRENGTH, PLAYER_DEXTERITY, new ShortSword, PLAYER_SLEEP_TIME, dungeon, "Player")
 //(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
 { }
 
 Player::~Player()
-{ }
+{delete getWeapon();}
 
 void Player::takeTurn()
 {
     if (isDead()) {return;}             //Player cannot make any moves if it's dead.
     
+    // Get the input move
     char move = getDungeon()->getCurrentMove();
-    std::cout << "HERE\n";
-    std::cout << move << std::endl;
     
     switch (move) {
-            //Move Up
-        case 'k':
-            std::cout << "moved up in player\n";
+        //Move Up
+        case Game::MOVE_TYPE::UP:
+            clearLastPositionOnMap();
             setPosition(getRowPos() - 1, getColPos());
             break;
             
-            //Move Down
-        case 'j':
-            std::cout << "moved down in player\n";
+        //Move Down
+        case Game::MOVE_TYPE::DOWN:
+            clearLastPositionOnMap();
             setPosition(getRowPos() + 1, getColPos());
             break;
             
-            //Move Left
-        case 'h':
-            std::cout << "moved left in player\n";
+        //Move Left
+        case Game::MOVE_TYPE::LEFT:
+            clearLastPositionOnMap();
             setPosition(getRowPos(), getColPos() - 1);
-
-            //Move Right
-        case 'l':
-            std::cout << "moved right in player\n";
+            break;
+            
+        //Move Right
+        case Game::MOVE_TYPE::RIGHT:
+            clearLastPositionOnMap();
             setPosition(getRowPos(), getColPos() + 1);
-
+            break;
+            
         default:
             break;
     }
@@ -214,14 +223,16 @@ void Player::takeTurn()
 //    }
 //}
 
-void Player::pickUp()                  //pick up and object you're standing on with 'g'
-{
-    
-    
-    
-}
 
+//TODO: pickup
+//void Player::pickUp()                  //pick up and object you're standing on with 'g'
+//{
+//
+//
+//
+//}
 
+//TODO: THESE BOYS
 //void weildWeapon(char ch);      //change weapons 'w'
 //void readScroll(char ch);       //read scroll 'r'
 //void openIventory();            //open inventory with 'i'
@@ -246,6 +257,11 @@ void Player::cheat()
 Monster::Monster(int row, int col, int healthPoints, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
 :Actor(row, col, healthPoints, maxHP, armor, strength, dex, weapon, sleepTime, dungeon, name) {}
 
+Monster::Monster(int healthPoints, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
+:Actor(healthPoints, maxHP, armor, strength, dex, weapon, sleepTime, dungeon, name) {}
+
+Monster::Monster(int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
+:Actor(armor, strength, dex, weapon, sleepTime, dungeon, name) {}
 
 bool Monster::CanSmellPlayer(Dungeon* dungeon, int ReqDist)
 {
@@ -267,9 +283,9 @@ bool Monster::CanSmellPlayer(Dungeon* dungeon, int ReqDist)
 }
 
 
-void Monster::dropItem(Monster* monster, Dungeon* dungeon)
+void Monster::dropItem(Dungeon* dungeon)
 {
-    string name = monster->getName();
+    string name = this->getName();
     
     if (name == "Bogeyman")
     {
@@ -277,7 +293,7 @@ void Monster::dropItem(Monster* monster, Dungeon* dungeon)
         bool itemDropped = trueWithProbability(1.0/10.0);
         
         if (itemDropped)
-            dungeon->getObjectList().push_back(new MagicAxe(monster->getRowPos(), monster->getColPos()));
+            dungeon->getObjectList().push_back(new MagicAxe(this->getRowPos(), this->getColPos()));
     }
     
     else if (name == "Snakewoman")
@@ -286,7 +302,7 @@ void Monster::dropItem(Monster* monster, Dungeon* dungeon)
         bool itemDropped = trueWithProbability(1.0/3.0);
         
         if (itemDropped)
-            dungeon->getObjectList().push_back(new MagicFangs(monster->getRowPos(), monster->getColPos()));
+            dungeon->getObjectList().push_back(new MagicFangs(this->getRowPos(), this->getColPos()));
     }
     
     else if (name == "Dragon")
@@ -296,19 +312,19 @@ void Monster::dropItem(Monster* monster, Dungeon* dungeon)
         
         switch (whichScroll) {
             case 1:
-                dungeon->getObjectList().push_back(new HPScroll(monster->getRowPos(), monster->getColPos()));
+                dungeon->getObjectList().push_back(new HPScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 2:
-                dungeon->getObjectList().push_back(new ArmorScroll(monster->getRowPos(), monster->getColPos()));
+                dungeon->getObjectList().push_back(new ArmorScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 3:
-                dungeon->getObjectList().push_back(new StrengthScroll(monster->getRowPos(), monster->getColPos()));
+                dungeon->getObjectList().push_back(new StrengthScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 4:
-                dungeon->getObjectList().push_back(new DexScroll(monster->getRowPos(), monster->getColPos()));
+                dungeon->getObjectList().push_back(new DexScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 5:
-                dungeon->getObjectList().push_back(new TPScroll(monster->getRowPos(), monster->getColPos()));
+                dungeon->getObjectList().push_back(new TPScroll(this->getRowPos(), this->getColPos()));
                 break;
             default:
                 break;
@@ -322,34 +338,136 @@ void Monster::dropItem(Monster* monster, Dungeon* dungeon)
         bool whichItem = trueWithProbability(1.0/2.0);      //if true, drop axes. if false, drop fangs.
         
         if (itemDropped && whichItem)
-            dungeon->getObjectList().push_back(new MagicAxe(monster->getRowPos(), monster->getColPos()));
+            dungeon->getObjectList().push_back(new MagicAxe(this->getRowPos(), this->getColPos()));
         
         else if (itemDropped && !whichItem)
-            dungeon->getObjectList().push_back(new MagicFangs(monster->getRowPos(), monster->getColPos()));
+            dungeon->getObjectList().push_back(new MagicFangs(this->getRowPos(), this->getColPos()));
     }
 }
 
-//char ChasePlayer(Monster* monster, Player* player, Dungeon* dungeon)
-//{
-//    int monRow = monster->getRowPos();
-//    int monCol = monster->getColPos();
-//    int playRow = player->getRowPos();
-//    int playCol = player->getColPos();
-//
-//    int deltaRow = abs(monRow - playRow);
-//    int deltaCol = abs(monCol - playCol);
-//
-//    int curDist = deltaRow + deltaCol;      //how far is the monster from player currently?
-//
-//    char move = '';     //no move
-//
-//    if (curDist = 1)    //monster is on an adjacent square to player.
-//        return move;    //return no move.
-//
-//
-//
-//}
 
-//Monster::Monster(int row, int col, int healthPoints, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
-//:Actor(row, col, healthPoints, maxHP, armor, strength, dex, weapon, sleepTime, dungeon, name) {}
+char Monster::chasePlayer(Player* player, Dungeon* dungeon)
+{
+    int monRow = getRowPos();
+    int monCol = getColPos();
+    int playerRow = player->getRowPos();
+    int playerCol = player->getColPos();
 
+    int deltaRow = abs(monRow - playerRow);
+    int deltaCol = abs(monCol - playerCol);
+
+    int curDist = deltaRow + deltaCol;      //how far is the monster from player currently?
+
+    // Check moving right
+    if (abs(monRow + 1 - playerRow) + deltaCol < curDist && getDungeon()->actorPosValid(monRow + 1, monCol))
+    {
+        return Game::MOVE_TYPE::RIGHT;
+    }
+    // Check moving left
+    else if (abs(monRow - 1 - playerRow) + deltaCol < curDist && getDungeon()->actorPosValid(monRow - 1, monCol))
+    {
+        return Game::MOVE_TYPE::LEFT;
+    }
+    // Check moving up
+    else if (deltaRow + abs(monCol - 1 - playerCol) < curDist && getDungeon()->actorPosValid(monRow, monCol - 1))
+    {
+        return Game::MOVE_TYPE::UP;
+    }
+    // Check moving down
+    else if (deltaRow + abs(monCol + 1 - playerCol) < curDist  && getDungeon()->actorPosValid(monRow , monCol + 2))
+    {
+        return Game::MOVE_TYPE::DOWN;
+    }
+    
+    return ' ';
+}
+
+
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//-------------SNAKEWOMEN------------------
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+const int SNAKE_HP             = randInt(3, 6);
+const int SNAKE_ARMOR          = 3;
+const int SNAKE_STRENGTH       = 2;
+const int SNAKE_DEXTERITY      = 3;
+const int SNAKE_SLEEP_TIME     = 0;
+// Weapon: Magic Fangs of Sleep
+
+Snakewoman::Snakewoman(Dungeon* dungeon)
+:Monster(randInt(3, 6), 6, SNAKE_ARMOR, SNAKE_STRENGTH, SNAKE_DEXTERITY, new MagicFangs, SNAKE_SLEEP_TIME, dungeon, "Snakewoman")
+{}
+
+Snakewoman::~Snakewoman()
+{
+    delete getWeapon();
+}
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//-------------BOGEYMEN------------------
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+const int BOGEY_HP             = randInt(5, 10);
+const int BOGEY_ARMOR          = 2;
+const int BOGEY_STRENGTH       = randInt(2, 3);
+const int BOGEY_DEXTERITY      = randInt(2, 3);
+const int BOGEY_SLEEP_TIME     = 0;
+//Weapon ShortSword
+
+Bogeyman::Bogeyman(Dungeon* dungeon)
+:Monster(randInt(5, 10), 10, BOGEY_ARMOR, BOGEY_STRENGTH, BOGEY_DEXTERITY, new ShortSword, BOGEY_SLEEP_TIME, dungeon, "Bogeyman")
+{}
+
+Bogeyman::~Bogeyman()
+{
+    delete getWeapon();
+}
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//-------------DRAGONS------------------
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+const int DRAGON_HP             = randInt(20, 25);
+const int DRAGON_ARMOR          = 4;
+const int DRAGON_STRENGTH       = 4;
+const int DRAGON_DEXTERITY      = 4;
+const int DRAGON_SLEEP_TIME     = 0;
+//const int DRAGON_WEAPON         = LONG_SWORD;
+
+Dragon::Dragon(Dungeon* dungeon)
+:Monster(DRAGON_ARMOR, DRAGON_STRENGTH, DRAGON_DEXTERITY, new LongSword, DRAGON_SLEEP_TIME, dungeon, "Dragon")
+{
+    setHP(randInt(20, 25));
+    setMaxHP(getHP());
+}
+
+Dragon::~Dragon()
+{
+    delete getWeapon();
+}
+
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//-------------GOBLIN------------------
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+const int GOBLIN_HP             = randInt(15, 20);
+const int GOBLIN_ARMOR          = 1;
+const int GOBLIN_STRENGTH       = 3;
+const int GOBLIN_DEXTERITY      = 1;
+const int GOBLIN_SLEEP_TIME     = 0;
+//const int GOBLIN_WEAPON         = SHORT_SWORD;  No longer relevant, designed weapon class
+
+Goblin::Goblin(Dungeon* dungeon)
+:Monster(randInt(15, 20), 20, GOBLIN_ARMOR, GOBLIN_STRENGTH, GOBLIN_DEXTERITY, new ShortSword, GOBLIN_SLEEP_TIME, dungeon, "Gobin")
+{}
+
+Goblin::~Goblin()
+{
+    delete getWeapon();
+}

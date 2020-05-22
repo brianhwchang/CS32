@@ -9,27 +9,32 @@
 #ifndef GLOBALS_h
 #define GLOBALS_h
 
+#include <string>
+ 
+using namespace std;
+
 const int MAXROWS = 18;                // max number of rows in the arena
 const int MAXCOLS = 70;                // max number of columns in the arena
 
 
+// NAMES
+const string BOGEYMAN                 = "Bogeyman";
+const string DRAGON                   = "Dragon";
+const string SNAKEWOMAN               = "Snakewoman";
+const string GOBLIN                   = "Goblin";
 
-//WEAPONS
-
-const int EMPTY       = 0;
-const int SHORT_SWORD = 1;
-const int LONG_SWORD  = 2;
-const int MACE        = 3;
-const int MAGIC_FANG  = 4;
-const int MAGIC_AXE   = 5;
-
-//SCROLLS
-
-const int SCROLL_OF_TELEPORTATION      = 6;
-const int SCROLL_OF_IMPROVE_ARMOR      = 7;
-const int SCROLL_OF_RAISE_STRENGTH     = 8;
-const int SCROLL_OF_ENHANCE_HEALTH     = 9;
-const int SCROLL_OF_ENHANCE_DEXTERITY  = 10;
+// DISPLAYS
+const char PLAYER_DISPLAY               = '@';
+const char BOGEYMAN_DISPLAY             = 'B';
+const char SNAKEWOMAN_DISPLAY           = 'S';
+const char DRAGON_DISPLAY               = 'D';
+const char GOBLIN_DISPLAY               = 'G';
+const char SCROLL_DISPLAY               = '?';
+const char WEAPON_DISPLAY               = ')';
+const char STAIR_DISPLAY                = '>';
+const char GOLDEN_IDOL_DISPLAY          = '&';
+const char WALL_DISPLAY                 = '#';
+const char EMPTY                        = ' ';
 
 
 

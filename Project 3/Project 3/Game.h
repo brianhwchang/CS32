@@ -1,3 +1,4 @@
+
 // Game.h
 
 #ifndef GAME_INCLUDED
@@ -12,8 +13,22 @@ public:
     Game(int goblinSmellDistance);
     ~Game();
     void play();
-private:
     
+    enum MOVE_TYPE {
+        LEFT = 'h',
+        RIGHT = 'l',
+        UP = 'k',
+        DOWN = 'j',
+        OBJECT_PICK_UP = 'g',
+        WIELD_WEAPON = 'w',
+        READ_SCROLL = 'r',
+        INVENTORY = 'i',
+        DESCEND_STAIR = '>',
+        QUIT = 'q',
+        CHEAT = 'c',
+    };
+private:
+
     Dungeon* m_dungeon;
 };
 
