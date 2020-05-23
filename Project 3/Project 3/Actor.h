@@ -7,6 +7,7 @@
 #include "utilities.h"
 #include "Object.h"
 #include <string>
+#include <vector>
 #include <list>
  
 using namespace std;
@@ -22,10 +23,9 @@ public:
     Actor(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     virtual ~Actor();
     
-    
+    // Game Functions
     virtual void takeTurn() = 0;            //pure virtual function, such that Actor is an abstract base class.
     void attack(Actor* attacker, Actor* defender);
-    //TODO: Move/Take turn
     
     //Setter Functions
     void setHP(int amt) {m_hp = amt;}
@@ -93,7 +93,7 @@ private:
 //--------------PLAYER CLASS-------------------
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-//const Weapon* PLAYER_WEAPON     = ShortSword;             //@@@@@@@@  ASK ALISSA  @@@@@@@@@@@@@@@@
+//
 
 class Player : public Actor
 {
@@ -103,21 +103,23 @@ public:
     
     virtual void takeTurn();
     
-    //input functions
+    // input functions
     void pickUp();                  //pick up and object you're standing on with 'g'
     void weildWeapon(char ch);      //change weapons 'w'
     void readScroll(char ch);       //read scroll 'r'
     void openIventory();            //open inventory with 'i'
     void descend();                 //descend to lower level with '>'
     void cheat();                   //sets the player's strength to 9 and maximum hit points to 50.
+    
+    // Helper Function for pickUp()
     bool standingOnObject();
     
     //misc
-    list<Object*> getInventory();
+    vector<Object*> getInventory();
     void winGame() {win = true;}    //sets win to true;
 
 private:
-    list<Object*> inventory;
+    vector<Object*> inventory;
     bool win;
     
 };
@@ -142,7 +144,7 @@ public:
     
     void dropItem(Dungeon* dungeon);
     bool CanSmellPlayer(Dungeon* dungeon, int ReqDist);                     //Used by Bogeymen and Snakewomen.
-    char chasePlayer(Player* player, Dungeon* dungeon);   //Used by Bogeymen and Snakewomen.
+    void chasePlayer(Player* player, Dungeon* dungeon);   //Used by Bogeymen and Snakewomen.
 };
 
 
@@ -153,7 +155,7 @@ public:
     Bogeyman(Dungeon* dungeon);
     ~Bogeyman();
 
-//    virtual void takeTurn();
+    virtual void takeTurn();
     
     //if there are 5 or fewer spaces between the player and BG, the bg can smell the player
     //If the BG smells the player, it'll move closer.
@@ -172,7 +174,7 @@ public:
     Snakewoman(Dungeon* dungeon);
     ~Snakewoman();
     
-//    virtual void takeTurn();
+    virtual void takeTurn();
 //    virtual void dropItem();
 
     //if it can reach the player in 3 or fewer moves, it can smell player. (bool - Can smell player (SW coord, Player Coord, max dist)
@@ -197,7 +199,6 @@ public:
     ~Dragon();
     
 //    virtual void takeTurn();
-//    virtual void dropItem();
 
     // 1/10 chance of regaining 1 HP at start of turn.
     // 100% chance of dropping a scroll upon death.
@@ -218,12 +219,10 @@ public:
     Goblin(Dungeon* dungeon);
     ~Goblin();
     
-//    virtual void takeTurn();
-//    virtual void dropItem();
+    virtual void takeTurn();
+
 //    bool pathExists();
     
-    
-
     //if Pathexists between goblin and player within 15 steps, can smell.
     //Makes optimal move.
 

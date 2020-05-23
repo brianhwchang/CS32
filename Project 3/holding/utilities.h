@@ -1,10 +1,6 @@
-//
-//  utilities.hpp
-//  Project 3
-//
-//  Created by Brian Chang on 5/19/20.
-//  Copyright © 2020 Brian Chang. All rights reserved.
-//
+// utilities.h
+
+// Note:  YOU MUST NOT MAKE ANY CHANGE TO THIS FILE!
 
 #ifndef UTILITIES_INCLUDED
 #define UTILITIES_INCLUDED
@@ -21,4 +17,3 @@ int randInt(int limit);                // random int from 0 to limit-1
 bool trueWithProbability(double p);    // return true with probability p
 
 #endif // UTILITIES_INCLUDED
-

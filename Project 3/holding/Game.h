@@ -1,27 +1,37 @@
-//
-//  Game.hpp
-//  Project 3
-//
-//  Created by Brian Chang on 5/19/20.
-//  Copyright © 2020 Brian Chang. All rights reserved.
-//
+
+// Game.h
+
 #ifndef GAME_INCLUDED
 #define GAME_INCLUDED
 
-#include "Dungeon.h"
-
 // You may add data members and other member functions to this class.
-
-class Dungeon;
+#include "Dungeon.h"
+#include "Actor.h"
 
 class Game
 {
 public:
     Game(int goblinSmellDistance);
+    ~Game();
     void play();
     
+    enum MOVE_TYPE {
+        LEFT = 'h',
+        RIGHT = 'l',
+        UP = 'k',
+        DOWN = 'j',
+        OBJECT_PICK_UP = 'g',
+        WIELD_WEAPON = 'w',
+        READ_SCROLL = 'r',
+        INVENTORY = 'i',
+        DESCEND_STAIR = '>',
+        QUIT = 'q',
+        CHEAT = 'c',
+    };
 private:
-    Dungeon* m_Dungeon;
+
+    Dungeon* m_dungeon;
+    Player* m_player;
 };
 
 #endif // GAME_INCLUDED
