@@ -7,6 +7,7 @@
 #include "utilities.h"
 #include "Object.h"
 #include <string>
+#include <vector>
 #include <list>
  
 using namespace std;
@@ -22,16 +23,15 @@ public:
     Actor(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name);
     virtual ~Actor();
     
-    
+    // Game Functions
     virtual void takeTurn() = 0;            //pure virtual function, such that Actor is an abstract base class.
     void attack(Actor* attacker, Actor* defender);
-    //TODO: Move/Take turn
     
     //Setter Functions
     void setHP(int amt) {m_hp = amt;}
     void setMaxHP (int amt) {m_maxHP = amt;}
     void setPosition(int r, int c) { m_row = r; m_col = c; }
-    void setWeapon(Weapon* weapon);
+    void setWeapon(Weapon* weapon) { m_weapon = weapon; }
     
     //Incrementer Functions
     void addHP(int amt);
@@ -40,6 +40,7 @@ public:
     void addStrength(int amt) {m_strength = m_strength + amt;}
     void addDex(int amt) {m_dex = m_dex + amt;}
     void addSleepTime(int amt) {m_sleepTime = m_sleepTime + amt;}
+    void randomRegen();
     
     //Decrementer Functions
     void reduceHP(int amt) {m_hp = m_hp - amt;}
@@ -93,7 +94,7 @@ private:
 //--------------PLAYER CLASS-------------------
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-//const Weapon* PLAYER_WEAPON     = ShortSword;             //@@@@@@@@  ASK ALISSA  @@@@@@@@@@@@@@@@
+//
 
 class Player : public Actor
 {
@@ -103,21 +104,23 @@ public:
     
     virtual void takeTurn();
     
-    //input functions
+    // input functions
     void pickUp();                  //pick up and object you're standing on with 'g'
-    void weildWeapon(char ch);      //change weapons 'w'
+    void wieldWeapon(char ch);      //change weapons 'w'
     void readScroll(char ch);       //read scroll 'r'
     void openIventory();            //open inventory with 'i'
     void descend();                 //descend to lower level with '>'
     void cheat();                   //sets the player's strength to 9 and maximum hit points to 50.
+    
+    // Helper Function for pickUp()
     bool standingOnObject();
     
     //misc
-    list<Object*> getInventory();
-    void winGame() {win = true;}    //sets win to true;
-
+    vector<Object*> getInventory();
+    void winGame();                 //sets win to true, prints win string.
+    bool hasWon() { return win; }
 private:
-    list<Object*> inventory;
+    vector<Object*> inventory;
     bool win;
     
 };
@@ -143,6 +146,7 @@ public:
     void dropItem(Dungeon* dungeon);
     bool CanSmellPlayer(Dungeon* dungeon, int ReqDist);                     //Used by Bogeymen and Snakewomen.
     void chasePlayer(Player* player, Dungeon* dungeon);   //Used by Bogeymen and Snakewomen.
+    bool isNextToPlayer();
 };
 
 
@@ -196,8 +200,7 @@ public:
     Dragon(Dungeon* dungeon);
     ~Dragon();
     
-//    virtual void takeTurn();
-//    virtual void dropItem();
+    virtual void takeTurn();
 
     // 1/10 chance of regaining 1 HP at start of turn.
     // 100% chance of dropping a scroll upon death.
@@ -218,12 +221,10 @@ public:
     Goblin(Dungeon* dungeon);
     ~Goblin();
     
-//    virtual void takeTurn();
-//    virtual void dropItem();
+    virtual void takeTurn();
+
 //    bool pathExists();
     
-    
-
     //if Pathexists between goblin and player within 15 steps, can smell.
     //Makes optimal move.
 

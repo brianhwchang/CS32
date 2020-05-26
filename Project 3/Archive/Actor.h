@@ -31,7 +31,7 @@ public:
     void setHP(int amt) {m_hp = amt;}
     void setMaxHP (int amt) {m_maxHP = amt;}
     void setPosition(int r, int c) { m_row = r; m_col = c; }
-    void setWeapon(Weapon* weapon) { m_weapon = weapon; }
+    void setWeapon(Weapon* weapon);
     
     //Incrementer Functions
     void addHP(int amt);
@@ -106,7 +106,7 @@ public:
     
     // input functions
     void pickUp();                  //pick up and object you're standing on with 'g'
-    void wieldWeapon(char ch);      //change weapons 'w'
+    void weildWeapon(char ch);      //change weapons 'w'
     void readScroll(char ch);       //read scroll 'r'
     void openIventory();            //open inventory with 'i'
     void descend();                 //descend to lower level with '>'

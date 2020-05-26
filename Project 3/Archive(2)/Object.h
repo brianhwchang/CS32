@@ -15,6 +15,13 @@
 
 using namespace std;
 
+const string SHORT_SWORD = "short sword";
+const string LONG_SWORD  = "long sword";
+const string MACE        = "mace";
+const string MAGIC_AXE   = "magic axe";
+const string MAGIC_FANGS = "magic fangs";
+
+
 class Player;
 class Dungeon;
 
@@ -33,9 +40,8 @@ public:
     //Postion, Name, Action.
     Object(int row, int col, string name, string action) {m_row = row; m_col = col; m_name = name; m_action = action;}
     
-    virtual ~Object() {
-        std::cout << "Deleting object " << getName() << std::endl;
-    };
+    virtual ~Object()
+    { };
     
     //Getters
     int getRow() const {return m_row;}
@@ -123,7 +129,13 @@ class Scroll : public Object
 public:
     Scroll(string name, string action);                     //for inventory
     Scroll(int row, int col, string name, string action);   //for drop
+    
+    int getType() { return m_type; }
+    void setType(int type) { m_type = type; }
     virtual ~Scroll() {}
+    
+private:
+    int m_type;
 };
 
 class HPScroll : public Scroll

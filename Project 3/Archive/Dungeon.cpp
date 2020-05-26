@@ -163,10 +163,7 @@ void Dungeon::genObjects()
 
 void Dungeon::spawnPlayer()         //randomly plops the player in the dungeon.
 {
-    if (m_player->getRowPos() && m_player->getColPos())
-    {
-        m_player->clearLastPositionOnMap();
-    }
+    m_player->clearLastPositionOnMap();
     
     int temp_row;
     int temp_col;         //create temp vars to hold coordinates.

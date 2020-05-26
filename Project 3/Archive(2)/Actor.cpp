@@ -80,11 +80,11 @@ void Actor::attack(Actor* attacker, Actor* defender)
     
     //Is hit successful?
     int atkPoint = attacker->getDex() + attacker->getWeapon()->getDex();
-    int defPoint = defender->getDex() + defender->getWeapon()->getDex();
+    int defPoint = defender->getDex() + defender->getArmor();
     
-    if ( randInt(atkPoint) >= randInt(defPoint) )        //Condition for successful hit
+    if ( randInt(1, atkPoint) >= randInt(1, defPoint) )        //Condition for successful hit
     {
-        int damage = randInt(attacker->getStrength() + attacker->getWeapon()->getDmg() - 1);    //using damage formula.
+        int damage = randInt(0, attacker->getStrength() + attacker->getWeapon()->getDmg() - 1);    //using damage formula.
         
         if (damage >= defender->getHP())    //Fatal blow.
         {

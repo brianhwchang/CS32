@@ -19,12 +19,33 @@ Game::~Game()
 
 void Game::play()
 {
-    cout << "Press q to exit game." << endl;
     char move = 0;
+    char scroll = 0;
+
+    
     while (move != 'q')
     {
+        // If player has won, stop program
+        if (m_dungeon->getPlayer()->hasWon())
+        {
+            return;
+        }
         // Display the board
         m_dungeon->printDungeon();
+        // If player is dead
+        if (m_dungeon->getPlayer()->isDead())
+        {
+            char move = 0;
+            while (1)
+            {
+                move = getCharacter();
+                if (move == 'q')
+                {
+                    return;
+                }
+                continue;
+            }
+        }
         // Get the current input by user
         move = getCharacter();
         
@@ -40,16 +61,30 @@ void Game::play()
                 m_dungeon->playMove();
                 break;
             case OBJECT_PICK_UP:
+                m_dungeon->getPlayer()->pickUp();
+                break;
             case WIELD_WEAPON:
+                
             case READ_SCROLL:
+                m_dungeon->getPlayer()->openIventory();
+                scroll = getCharacter();
+                m_dungeon->getPlayer()->readScroll(scroll);
+                break;
             case INVENTORY:
+                m_dungeon->getPlayer()->openIventory();
+                break;
             case DESCEND_STAIR:
+                m_dungeon->getPlayer()->descend();
+                break;
             case QUIT:
                 return;
             case CHEAT:
+                m_dungeon->getPlayer()->cheat();
+                break;
             default:
                 // TODO: error handling?
                 continue;
+                
         }
         clearScreen();
             

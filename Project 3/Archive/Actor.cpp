@@ -52,14 +52,37 @@ void Actor::clearLastPositionOnMap()
     m_dungeon->setChar(m_row, m_col, EMPTY);
 }
 
+void Actor::randomRegen()
+{
+    bool feelingLucky = trueWithProbability(1.0/10.0);
+    if (feelingLucky)
+    {
+        addHP(1);
+        return;
+    }
+    else
+        return;
+}
 
 void Actor::attack(Actor* attacker, Actor* defender)
 {
+    if (attacker == nullptr)
+    {
+        cout << "attacker is nullptr" << endl;
+        return;
+    }
+    
+    if (defender == nullptr)
+    {
+        cout << "defender is nullptr" << endl;
+        return;
+    }
+    
     //Is hit successful?
     int atkPoint = attacker->getDex() + attacker->getWeapon()->getDex();
     int defPoint = defender->getDex() + defender->getWeapon()->getDex();
     
-    if ( randInt(atkPoint) > randInt(defPoint) )        //Condition for successful hit
+    if ( randInt(atkPoint) >= randInt(defPoint) )        //Condition for successful hit
     {
         int damage = randInt(attacker->getStrength() + attacker->getWeapon()->getDmg() - 1);    //using damage formula.
         
@@ -68,14 +91,16 @@ void Actor::attack(Actor* attacker, Actor* defender)
             Monster* montest = dynamic_cast<Monster*>(defender);       //attempt to convert defender ptr into monster ptr.
             if (montest != nullptr)
             {
-                //TODO: Call drop function for loot.
-                getDungeon()->getTextList().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " dealing a final blow." );
+                defender->reduceHP(damage);     //reduce defender hp
+                montest->dropItem(attacker->getDungeon());      //attacker would be the player.
+                getDungeon()->getTextVector().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " dealing a final blow." );
             }
             Player* playtest = dynamic_cast<Player*>(defender);        //attempt to convert defend ptr into player ptr.
             if (playtest != nullptr)
             {
-                getDungeon()->getTextList().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at " + defender->getName() + " dealing a final blow." );
-                getDungeon()->getTextList().push_back("press q to exit game.");
+                defender->reduceHP(damage);     //reduce defender hp
+                getDungeon()->getTextVector().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at " + defender->getName() + " dealing a final blow." );
+                getDungeon()->getTextVector().push_back("press q to exit game.");
             }
                 
         }
@@ -85,7 +110,7 @@ void Actor::attack(Actor* attacker, Actor* defender)
             if (attacker->getWeapon()->getName() != "magic fangs")
             {
                 defender->reduceHP(damage);     //reduce defender hp
-                getDungeon()->getTextList().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits." );
+                getDungeon()->getTextVector().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits." );
                 
             }
             
@@ -96,7 +121,7 @@ void Actor::attack(Actor* attacker, Actor* defender)
                 if (!sleepChance) //nonsuccessful sleep hit (normal hit)
                 {
                     defender->reduceHP(damage);     //reduce defender hp
-                    getDungeon()->getTextList().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits." );
+                    getDungeon()->getTextVector().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits." );
                 }
                 
                 if (sleepChance)        //Successful sleep hit
@@ -107,7 +132,7 @@ void Actor::attack(Actor* attacker, Actor* defender)
                     {
                         defender->addSleepTime(sleepDuration);      //add sleepTime.
                         defender->reduceHP(damage);                 //reduce defender hp
-                        getDungeon()->getTextList().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits, putting the" + defender->getName() + " to sleep." );
+                        getDungeon()->getTextVector().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits, putting the " + defender->getName() + " to sleep." );
                         
                     }
                     else if (defender->getSleepTime() > 0)  //Defender is already asleep.
@@ -117,7 +142,7 @@ void Actor::attack(Actor* attacker, Actor* defender)
                         {
                             defender->addSleepTime(deltaSleep);
                             defender->reduceHP(damage);                 //reduce defender hp
-                            getDungeon()->getTextList().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits, putting the" + defender->getName() + " to sleep." );
+                            getDungeon()->getTextVector().push_back("the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and hits, putting the " + defender->getName() + " to sleep." );
                         }
                     }
                 }
@@ -128,7 +153,7 @@ void Actor::attack(Actor* attacker, Actor* defender)
     else //Miss.
     {
         // "the *attacker* *action* *weapon* at the *defender* and misses"
-        getDungeon()->getTextList().push_back( "the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + "at the " + defender->getName() + "and misses." );
+        getDungeon()->getTextVector().push_back( "the " + attacker->getName() + " " + attacker->getWeapon()->getAction() + " " + attacker->getWeapon()->getName() + " at the " + defender->getName() + " and misses." );
     }
     
 }
@@ -152,7 +177,6 @@ bool Actor::isAsleep()
         return false;
 }
 
-
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //--------------PLAYER CLASS-------------------
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -167,7 +191,9 @@ const int PLAYER_SLEEP_TIME     = 0;
 Player::Player(Dungeon* dungeon)
 : Actor(PLAYER_HP, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_STRENGTH, PLAYER_DEXTERITY, new ShortSword, PLAYER_SLEEP_TIME, dungeon, "Player")
 //(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
-{ }
+{
+    win = false;
+}
 
 Player::~Player()
 {
@@ -178,7 +204,15 @@ Player::~Player()
 
 void Player::takeTurn()
 {
-    if (isDead()) {return;}             //Player cannot make any moves if it's dead.
+    if (isDead()) {return;}             // Player cannot make any moves if it's dead.
+    
+    randomRegen();                      //10% HP regen chance function.
+    
+    if (isAsleep())
+    {
+        reduceSleepTime(1);
+        return;
+    }
     
     // Get the input move
     char move = getDungeon()->getCurrentMove();
@@ -186,17 +220,28 @@ void Player::takeTurn()
     switch (move) {
         //Move Up
         case Game::MOVE_TYPE::UP:
-            if (getDungeon()->actorPosValid(getRowPos() - 1, getColPos()))
+            if (getDungeon()->isMob(getRowPos() -1 , getColPos()))      // If monster, attack it.
+            {
+                Monster* mob = nullptr;
+                getDungeon()->getMob(getRowPos() -1 , getColPos(), mob);
+                attack(this, mob);
+            }
+            else if (getDungeon()->actorPosValid(getRowPos() - 1, getColPos()))     // If not monster, just move (if valid)
             {
                 clearLastPositionOnMap();
-                 setPosition(getRowPos() - 1, getColPos());
+                setPosition(getRowPos() - 1, getColPos());
             }
             break;
-
             
         //Move Down
         case Game::MOVE_TYPE::DOWN:
-            if (getDungeon()->actorPosValid(getRowPos() + 1, getColPos()))
+            if (getDungeon()->isMob(getRowPos() +1 , getColPos()))      // If monster, attack it.
+            {
+                Monster* mob = nullptr;
+                getDungeon()->getMob(getRowPos() +1 , getColPos(), mob);
+                attack(this, mob);
+            }
+            else if (getDungeon()->actorPosValid(getRowPos() + 1, getColPos()))     // If not monster, just move (if valid)
             {
                 clearLastPositionOnMap();
                 setPosition(getRowPos() + 1, getColPos());
@@ -205,7 +250,13 @@ void Player::takeTurn()
             
         //Move Left
         case Game::MOVE_TYPE::LEFT:
-            if (getDungeon()->actorPosValid(getRowPos(), getColPos() - 1))
+            if (getDungeon()->isMob(getRowPos(), getColPos() - 1))      // If monster, attack it.
+            {
+                Monster* mob = nullptr;
+                getDungeon()->getMob(getRowPos(), getColPos() - 1, mob);
+                attack(this, mob);
+            }
+            else if (getDungeon()->actorPosValid(getRowPos(), getColPos() - 1))
             {
                 clearLastPositionOnMap();
                 setPosition(getRowPos(), getColPos() - 1);
@@ -214,7 +265,13 @@ void Player::takeTurn()
             
         //Move Right
         case Game::MOVE_TYPE::RIGHT:
-            if (getDungeon()->actorPosValid(getRowPos(), getColPos() + 1))
+            if (getDungeon()->isMob(getRowPos(), getColPos() + 1))      // If monster, attack it.
+            {
+                Monster* mob = nullptr;
+                getDungeon()->getMob(getRowPos(), getColPos() + 1, mob);
+                attack(this, mob);
+            }
+            else if (getDungeon()->actorPosValid(getRowPos(), getColPos() + 1))
             {
                 clearLastPositionOnMap();
                 setPosition(getRowPos(), getColPos() + 1);
@@ -227,45 +284,157 @@ void Player::takeTurn()
 }
 
 
-//bool Player::standingOnObject()
-//{
-//    int playRow = getRowPos();
-//    int playCol = getColPos();
-//    list<Object*> objList = getDungeon()->getObjectList();
-//
-//    for (list<Object*>::iterator i = objList.begin() ; i != objList.end() ; i++)
-//    {
-//        int objRow = (*i)->getRow();
-//        int objCol = (*i)->getCol();
-//
-//
-//    }
-//}
+bool Player::standingOnObject()
+{
+    int playRow = this->getRowPos();
+    int playCol = this->getColPos();
+    
+    Object* targetItem = nullptr;
+    getDungeon()->getObj(playRow, playCol, targetItem);     //will return a valid pointer to the object if its valid.
+    
+    if (targetItem != nullptr)
+        return true;
+    else
+        return false;
+}
 
 
-//TODO: pickup
-//void Player::pickUp()                  //pick up and object you're standing on with 'g'
-//{
-//
-//
-//
-//}
+
+void Player::pickUp()                  //pick up and object you're standing on with 'g'
+{
+    int playRow = this->getRowPos();
+    int playCol = this->getColPos();
+    
+    if (getDungeon()->getLevel() == 4)
+    {
+        if (getDungeon()->isIdol(playRow, playCol))
+        {
+            //Winning condition.
+            winGame();
+            return;
+        }
+    }
+    
+    if (standingOnObject())
+    {
+        if (inventory.size() >= 25)
+        {
+            cout << "Your knapsack is full; you can't pick that up." << endl;
+            return;
+        }
+        
+        Object* targetItem = nullptr;
+        getDungeon()->getObj(playRow, playCol, targetItem);         //get object
+        inventory.push_back(targetItem);                            //store object
+        
+        Weapon* weaponTest = dynamic_cast<Weapon*>(targetItem);
+        if (weaponTest != nullptr)
+            getDungeon()->getTextVector().push_back("You pick up a " + targetItem->getName());
+        else
+            getDungeon()->getTextVector().push_back("You pick up a scroll called " + targetItem->getName());
+        
+        getDungeon()->eraseObject(targetItem);
+    }
+    else
+        return;
+}
 
 //TODO: THESE BOYS
 //void weildWeapon(char ch);      //change weapons 'w'
-//void readScroll(char ch);       //read scroll 'r'
-//void openIventory();            //open inventory with 'i'
+void Player::readScroll(char ch)       //read scroll 'r'
+{
+    char index = 'a';
+    for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
+    {
+        // If the index matches character input
+        if (index == ch)
+        {
+            // ...and if it's a scroll
+            Scroll* testScroll = dynamic_cast<Scroll*>(*obj);
+            if (testScroll != nullptr)
+            {
+                int type = testScroll->getType();
+                switch (type) {
+                    // Increase max hp by random integer between 3 and 8
+                    case HP_SCROLL:
+                        setMaxHP(getMaxHP() + randInt(3, 8));
+                        break;
+                    // The player's armor points are increased by a random integer from 1 to 3.
+                    case ARMOR_SCROLL:
+                        addArmor(randInt(1, 3));
+                        break;
+                    // The player's strength points are increased by a random integer from 1 to 3.
+                    case STRENGTH_SCROLL:
+                        addStrength(randInt(1, 3));
+                        break;
+                    // The player's dexterity is increased by 1.
+                    case DEX_SCROLL:
+                        addDex(1);
+                        break;
+                    case TP_SCROLL:
+                        getDungeon()->spawnPlayer();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            cout << testScroll->getAction() << endl;
+            
+            // Erase from inventory
+            for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
+            {
+                if ((*obj) == testScroll)
+                {
+                    inventory.erase(obj);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+
+void Player::openIventory()
+{
+    if(isDead())
+        return;
+    
+    clearScreen();
+    char index = 'a';
+    cout << "Inventory:" << endl;
+    for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
+        cout << index << ". " + (*obj)->getName() << endl;
+    
+}
+
 //void descend();                 //descend to lower level with '>'
+    //Check if player is standing on '>'
+    //Call nextLevel();
+void Player::descend()
+{
+    if (getDungeon()->isStairs(this->getRowPos(), getColPos()))
+        getDungeon()->nextLevel();
+    else
+        return;
+}
+
+
 
 //Cheat fxn for testing. HP = 50, STR = 9.
 void Player::cheat()
 {
+    //Just add the difference
     addMaxHP(50 - getMaxHP());
     addHP(50 - getHP());
     addStrength(9 - getStrength());
 }
 
-
+void Player::winGame()
+{
+    win = true;
+    cout << "You pick up the golden idol" << endl;
+    cout << "Congratulations, you won!" << endl;
+}
 
 
 
@@ -312,7 +481,7 @@ void Monster::dropItem(Dungeon* dungeon)
         bool itemDropped = trueWithProbability(1.0/10.0);
         
         if (itemDropped)
-            dungeon->getObjectList().push_back(new MagicAxe(this->getRowPos(), this->getColPos()));
+            dungeon->getObjectVector().push_back(new MagicAxe(this->getRowPos(), this->getColPos()));
     }
     
     else if (name == SNAKEWOMAN)
@@ -321,7 +490,7 @@ void Monster::dropItem(Dungeon* dungeon)
         bool itemDropped = trueWithProbability(1.0/3.0);
         
         if (itemDropped)
-            dungeon->getObjectList().push_back(new MagicFangs(this->getRowPos(), this->getColPos()));
+            dungeon->getObjectVector().push_back(new MagicFangs(this->getRowPos(), this->getColPos()));
     }
     
     else if (name == DRAGON)
@@ -331,19 +500,19 @@ void Monster::dropItem(Dungeon* dungeon)
         
         switch (whichScroll) {
             case 1:
-                dungeon->getObjectList().push_back(new HPScroll(this->getRowPos(), this->getColPos()));
+                dungeon->getObjectVector().push_back(new HPScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 2:
-                dungeon->getObjectList().push_back(new ArmorScroll(this->getRowPos(), this->getColPos()));
+                dungeon->getObjectVector().push_back(new ArmorScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 3:
-                dungeon->getObjectList().push_back(new StrengthScroll(this->getRowPos(), this->getColPos()));
+                dungeon->getObjectVector().push_back(new StrengthScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 4:
-                dungeon->getObjectList().push_back(new DexScroll(this->getRowPos(), this->getColPos()));
+                dungeon->getObjectVector().push_back(new DexScroll(this->getRowPos(), this->getColPos()));
                 break;
             case 5:
-                dungeon->getObjectList().push_back(new TPScroll(this->getRowPos(), this->getColPos()));
+                dungeon->getObjectVector().push_back(new TPScroll(this->getRowPos(), this->getColPos()));
                 break;
             default:
                 break;
@@ -357,10 +526,10 @@ void Monster::dropItem(Dungeon* dungeon)
         bool whichItem = trueWithProbability(1.0/2.0);      //if true, drop axes. if false, drop fangs.
         
         if (itemDropped && whichItem)
-            dungeon->getObjectList().push_back(new MagicAxe(this->getRowPos(), this->getColPos()));
+            dungeon->getObjectVector().push_back(new MagicAxe(this->getRowPos(), this->getColPos()));
         
         else if (itemDropped && !whichItem)
-            dungeon->getObjectList().push_back(new MagicFangs(this->getRowPos(), this->getColPos()));
+            dungeon->getObjectVector().push_back(new MagicFangs(this->getRowPos(), this->getColPos()));
     }
 }
 
@@ -378,32 +547,59 @@ void Monster::chasePlayer(Player* player, Dungeon* dungeon)
     int curDist = deltaRow + deltaCol;      //how far is the monster from player currently?
 
     // Check moving down
-    if (abs(monRow + 1 - playerRow) + deltaCol < curDist && getDungeon()->actorPosValid(monRow + 1, monCol))
+    if (abs(monRow + 1 - playerRow) + deltaCol < curDist
+        && getDungeon()->actorPosValid(monRow + 1, monCol)
+        && !(monRow + 1 == playerRow && monCol == playerCol))
     {
         clearLastPositionOnMap();
         setPosition(monRow + 1, monCol);
     }
     // Check moving up
-    else if (abs(monRow - 1 - playerRow) + deltaCol < curDist && getDungeon()->actorPosValid(monRow - 1, monCol))
+    else if (abs(monRow - 1 - playerRow) + deltaCol < curDist
+             && getDungeon()->actorPosValid(monRow - 1, monCol)
+             && !(monRow - 1 == playerRow && monCol == playerCol))
     {
         clearLastPositionOnMap();
         setPosition(monRow - 1, monCol);
     }
     // Check moving left
-    else if (deltaRow + abs(monCol - 1 - playerCol) < curDist && getDungeon()->actorPosValid(monRow, monCol - 1))
+    else if (deltaRow + abs(monCol - 1 - playerCol) < curDist
+             && getDungeon()->actorPosValid(monRow, monCol - 1)
+             && !(monRow == playerRow && monCol - 1 == playerCol))
     {
         clearLastPositionOnMap();
         setPosition(monRow, monCol - 1);
     }
     // Check moving right
-    else if (deltaRow + abs(monCol + 1 - playerCol) < curDist  && getDungeon()->actorPosValid(monRow , monCol + 2))
+    else if (deltaRow + abs(monCol + 1 - playerCol) < curDist
+             && getDungeon()->actorPosValid(monRow , monCol + 1)
+             && !(monRow == playerRow && monCol + 1 == playerCol))
     {
         clearLastPositionOnMap();
         setPosition(monRow, monCol + 1);
     }
 }
 
-
+bool Monster::isNextToPlayer()
+{
+    int monRow = this->getRowPos();
+    int monCol = this->getColPos();
+    
+    // Check up
+    if (getDungeon()->isPlayer(monRow - 1, monCol))
+        return true;
+    // Check down
+    else if (getDungeon()->isPlayer(monRow + 1, monCol))
+        return true;
+    // Check left
+    else if (getDungeon()->isPlayer(monRow, monCol - 1))
+        return true;
+    // Check right
+    else if (getDungeon()->isPlayer(monRow, monCol + 1))
+        return true;
+    else
+        return false;
+}
 
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -419,7 +615,7 @@ const int SNAKE_SMELL_DISTANCE = 3;
 // Weapon: Magic Fangs of Sleep
 
 Snakewoman::Snakewoman(Dungeon* dungeon)
-:Monster(randInt(3, 6), 6, SNAKE_ARMOR, SNAKE_STRENGTH, SNAKE_DEXTERITY, new MagicFangs, SNAKE_SLEEP_TIME, dungeon, "Snakewoman")
+:Monster(randInt(3, 6), 6, SNAKE_ARMOR, SNAKE_STRENGTH, SNAKE_DEXTERITY, new MagicFangs, SNAKE_SLEEP_TIME, dungeon, SNAKEWOMAN)
 {}
 
 Snakewoman::~Snakewoman()
@@ -435,6 +631,10 @@ Snakewoman::~Snakewoman()
 
 void Snakewoman::takeTurn()
 {
+    if (isNextToPlayer())
+    {
+        attack(this, getDungeon()->getPlayer());
+    }
     if (CanSmellPlayer(getDungeon(), SNAKE_SMELL_DISTANCE))
     {
         chasePlayer(getDungeon()->getPlayer(), getDungeon());
@@ -456,7 +656,7 @@ const int BOGEY_SMELL_DISTANCE = 5;
 //Weapon ShortSword
 
 Bogeyman::Bogeyman(Dungeon* dungeon)
-:Monster(randInt(5, 10), 10, BOGEY_ARMOR, BOGEY_STRENGTH, BOGEY_DEXTERITY, new ShortSword, BOGEY_SLEEP_TIME, dungeon, "Bogeyman")
+:Monster(randInt(5, 10), 10, BOGEY_ARMOR, BOGEY_STRENGTH, BOGEY_DEXTERITY, new ShortSword, BOGEY_SLEEP_TIME, dungeon, BOGEYMAN)
 {}
 
 Bogeyman::~Bogeyman()
@@ -469,9 +669,12 @@ Bogeyman::~Bogeyman()
 
 void Bogeyman::takeTurn()
 {
-    if (CanSmellPlayer(getDungeon(), BOGEY_SMELL_DISTANCE))
+    if (isNextToPlayer())
     {
-        std::cout << "bogeyman chasing player\n";
+        attack(this, getDungeon()->getPlayer());
+    }
+    else if (CanSmellPlayer(getDungeon(), BOGEY_SMELL_DISTANCE))
+    {
         chasePlayer(getDungeon()->getPlayer(), getDungeon());
     }
 }
@@ -491,7 +694,7 @@ const int DRAGON_SLEEP_TIME     = 0;
 //const int DRAGON_WEAPON         = LONG_SWORD;
 
 Dragon::Dragon(Dungeon* dungeon)
-:Monster(DRAGON_ARMOR, DRAGON_STRENGTH, DRAGON_DEXTERITY, new LongSword, DRAGON_SLEEP_TIME, dungeon, "Dragon")
+:Monster(DRAGON_ARMOR, DRAGON_STRENGTH, DRAGON_DEXTERITY, new LongSword, DRAGON_SLEEP_TIME, dungeon, DRAGON)
 {
     setHP(randInt(20, 25));
     setMaxHP(getHP());
@@ -505,6 +708,14 @@ Dragon::~Dragon()
     }
 }
 
+void Dragon::takeTurn()
+{
+    randomRegen();
+    if (isNextToPlayer())
+    {
+        attack(this, getDungeon()->getPlayer());
+    }
+}
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //-------------GOBLIN------------------
@@ -516,10 +727,11 @@ const int GOBLIN_ARMOR          = 1;
 const int GOBLIN_STRENGTH       = 3;
 const int GOBLIN_DEXTERITY      = 1;
 const int GOBLIN_SLEEP_TIME     = 0;
+const int GOBLIN_SMELL_DISTANCE = 15;
 //const int GOBLIN_WEAPON         = SHORT_SWORD;  No longer relevant, designed weapon class
 
 Goblin::Goblin(Dungeon* dungeon)
-:Monster(randInt(15, 20), 20, GOBLIN_ARMOR, GOBLIN_STRENGTH, GOBLIN_DEXTERITY, new ShortSword, GOBLIN_SLEEP_TIME, dungeon, "Gobin")
+:Monster(randInt(15, 20), 20, GOBLIN_ARMOR, GOBLIN_STRENGTH, GOBLIN_DEXTERITY, new ShortSword, GOBLIN_SLEEP_TIME, dungeon, GOBLIN)
 {}
 
 Goblin::~Goblin()
@@ -527,5 +739,17 @@ Goblin::~Goblin()
     if (getWeapon() != nullptr)
     {
        delete getWeapon();
+    }
+}
+
+void Goblin::takeTurn()
+{
+    if (isNextToPlayer())
+    {
+        attack(this, getDungeon()->getPlayer());
+    }
+    else if (CanSmellPlayer(getDungeon(), GOBLIN_SMELL_DISTANCE))
+    {
+        chasePlayer(getDungeon()->getPlayer(), getDungeon());
     }
 }

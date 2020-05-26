@@ -29,17 +29,21 @@ public:
     Dungeon();
     ~Dungeon();
     void printDungeon();
+    
+    void nextLevel();
 
     //getter functions
     char getSymbol(int row, int col) {return map[row][col];}
     Player* getPlayer() const {return m_player;}
-    Monster* getMonster(int row, int col);
-    //object* getStair() const;
-    //object* getGoldenIdol() const;
-    
-    list<Monster*>& getMonsterList() {return monsterList;}
-    list<Object*>& getObjectList() {return objectList;}
-    list<string>& getTextList() {return textList;}
+    Monster* getMob(int row, int col, Monster* &mob);
+    Object* getObj(int row, int col, Object* &obj);
+    Object* getStair() {return m_stairs;}
+    Object* getGoldenIdol() {return goldenIdol;}
+
+    vector<Monster*>& getMonsterVector() {return monsterVector;}
+    vector<Object*>& getObjectVector() {return objectVector;}
+    vector<string>& getTextVector() {return textVector;}
+
 
     //setter functions
     void drawDungeon();
@@ -50,32 +54,37 @@ public:
     void spawnPlayer();     //Randomly spawns player in dungeon
     void spawnObjects();    //spawn objects in map.
     void spawnMonsters();   //spawn Monsters in map.
+    void eraseObject(Object* object);     //removes an object from the object vector
+    
+    void clearMonsters();   //wipes current monster vector
+    void clearObjects();   //wipes current object vector
 
     //---------------------Helper Functions------------------
     
     bool isValidPos(int row, int col);
     bool actorPosValid(int row, int col);
     bool objectPosValid(int row, int col);
-    bool isPlayer(int row, int col);
-    bool isMob(int row, int col);
-    bool isObj(int row, int col);
     
-    //Turn-based functions
-    
-    void removeDead();
+    void removeDeadMobs();
+    int getLevel() {return level;}
     char getCurrentMove() const { return m_currentMove; };
     void setCurrentMove(char c) { m_currentMove = c; };
     void playMove();
-
     
+    bool isPlayer(int row, int col);
+    bool isMob(int row, int col);
+    bool isObj(int row, int col);
+    bool isStairs(int row, int col);
+    bool isIdol(int row, int col);
+
 private:
-    char map[18][70];             //2D Char Array that functions as the map.
-    Player* m_player;             //Dat boi
-    Object* goldenIdol;           //Idol
-    Object* stairs;               //Stairs
-    list<Monster*> monsterList;   //list of monster pointers (per level)
-    list<Object*> objectList;     //list of object pointers (per level)
-    list<string> textList;        //list of strings to communicate with client.
+    char map[18][70];   //2D Char Array that functions as the map.
+    Player* m_player;
+    Object* goldenIdol;
+    Object* m_stairs;
+    vector<Monster*> monsterVector;
+    vector<Object*> objectVector;
+    vector<string> textVector;         //could be done as a vector but I dont think its a big deal
     
     int level;
     int n_objects;

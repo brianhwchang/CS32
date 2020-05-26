@@ -7,7 +7,7 @@
 //
 
 #include "Object.h"
-
+#include "globals.h"
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //      WEAPON CLASS FUNCTIONS
@@ -64,19 +64,34 @@ Scroll::Scroll(string name, string action)
 :Object(name, action) {}
 
 HPScroll::HPScroll()
-:Scroll("scroll of enhance health", "You feel your heart beating stronger.") {}
+:Scroll("scroll of enhance health", "You feel your heart beating stronger.")
+{
+    setType(HP_SCROLL);
+}
 
 ArmorScroll::ArmorScroll()
-:Scroll("scroll of enhance armor", "Your armor glows blue.") {}
+:Scroll("scroll of enhance armor", "Your armor glows blue.")
+{
+    setType(ARMOR_SCROLL);
+}
 
 StrengthScroll::StrengthScroll()
-:Scroll("scroll of strength" , "Your muscles bulge.") {}
+:Scroll("scroll of strength" , "Your muscles bulge.")
+{
+    setType(STRENGTH_SCROLL);
+}
 
 DexScroll::DexScroll()
-:Scroll("scroll of enhance dexterity", "You feel like less of a klutz.") {}
+:Scroll("scroll of enhance dexterity", "You feel like less of a klutz.")
+{
+    setType(DEX_SCROLL);
+}
 
 TPScroll::TPScroll()
-:Scroll("scroll of teleportation", "You feel your body wrenched in space and time.") {}
+:Scroll("scroll of teleportation", "You feel your body wrenched in space and time.")
+{
+    setType(TP_SCROLL);
+}
 
 
 //Drop Constructors (Because they include positions)
