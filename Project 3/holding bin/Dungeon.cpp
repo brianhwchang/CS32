@@ -490,4 +490,3 @@ void Dungeon::clearObjects()
     }
     objectVector.clear();       //clears the vector of dead pointers
 }
-

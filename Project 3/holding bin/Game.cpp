@@ -100,19 +100,3 @@ void Game::play()
 // (e.g., Player.h, Boegeyman.h, etc.), or you might put the class
 // declarations for all actors in Actor.h, all game objects in GameObject.h,
 // etc.
-
-
-Game* xxxcreateGame(int goblinRecursionDepth)
-{
-	return new Game(goblinRecursionDepth);
-}
-
-void xxxplayGame(Game* gp)
-{
-	gp->play();
-}
-
-void xxxDestroyGame(Game* gp)
-{
-	delete gp;
-}

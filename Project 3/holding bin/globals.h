@@ -44,4 +44,3 @@ const int DEX_SCROLL        = 3;
 const int TP_SCROLL         = 4;
 
 #endif /* GLOBALS_h */
-

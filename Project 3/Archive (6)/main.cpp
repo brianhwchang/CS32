@@ -14,7 +14,6 @@ int main()
       // long time for that distance.  If you're one of them, then until you
       // improve your algorithm, pass a value smaller than 15 to the game
       // constructor so your game is comfortable to play.
-
-	Game g(0);
-	g.play();
+    Game g(10);
+    g.play();
 }

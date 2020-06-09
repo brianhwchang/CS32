@@ -36,12 +36,6 @@ const char GOLDEN_IDOL_DISPLAY          = '&';
 const char WALL_DISPLAY                 = '#';
 const char EMPTY                        = ' ';
 
-// SCROLLS
-const int HP_SCROLL         = 0;
-const int ARMOR_SCROLL      = 1;
-const int STRENGTH_SCROLL   = 2;
-const int DEX_SCROLL        = 3;
-const int TP_SCROLL         = 4;
+
 
 #endif /* GLOBALS_h */
-

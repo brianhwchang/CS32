@@ -191,9 +191,7 @@ const int PLAYER_SLEEP_TIME     = 0;
 Player::Player(Dungeon* dungeon)
 : Actor(PLAYER_HP, PLAYER_MAX_HP, PLAYER_ARMOR, PLAYER_STRENGTH, PLAYER_DEXTERITY, new ShortSword, PLAYER_SLEEP_TIME, dungeon, "Player")
 //(int row, int col, int HP, int maxHP, int armor, int strength, int dex, Weapon* weapon, int sleepTime, Dungeon* dungeon, string name)
-{
-    win = false;
-}
+{ }
 
 Player::~Player()
 {
@@ -307,12 +305,8 @@ void Player::pickUp()                  //pick up and object you're standing on w
     
     if (getDungeon()->getLevel() == 4)
     {
-        if (getDungeon()->isIdol(playRow, playCol))
-        {
-            //Winning condition.
+        if (getDungeon()->isIdol(playRow, playRow))     //Winning condition.
             winGame();
-            return;
-        }
     }
     
     if (standingOnObject())
@@ -340,98 +334,9 @@ void Player::pickUp()                  //pick up and object you're standing on w
 }
 
 //TODO: THESE BOYS
-void Player::wieldWeapon(char ch)              //change weapons 'w'
-{
-    char index = 'a';
-    for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
-    {
-        // If the index matches character input
-        if (index == ch)
-        {
-            // ...and if it's a weapon
-            Weapon* testWeapon = dynamic_cast<Weapon*>(*obj);
-            if (testWeapon != nullptr)
-            {
-                Weapon* lastWeapon = getWeapon();
-                inventory.push_back(lastWeapon);
-                setWeapon(testWeapon);
-                // Erase from inventory
-                cout << "You are wielding " << testWeapon->getName() << "." << endl;
-                for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
-                {
-                    if ((*obj) == testWeapon)
-                    {
-                        inventory.erase(obj);
-                        return;
-                    }
-                }
-                
-                return;
-                
-            }
-            else
-                
-            {
-                cout << "You can't wield " << (*obj)->getName() << "." << endl;
-            }
-        }
-    }
-}
-
-void Player::readScroll(char ch)       //read scroll 'r'
-{
-    char index = 'a';
-    for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
-    {
-        // If the index matches character input
-        if (index == ch)
-        {
-            // ...and if it's a scroll
-            Scroll* testScroll = dynamic_cast<Scroll*>(*obj);
-            if (testScroll != nullptr)
-            {
-                int type = testScroll->getType();
-                switch (type) {
-                    // Increase max hp by random integer between 3 and 8
-                    case HP_SCROLL:
-                        setMaxHP(getMaxHP() + randInt(3, 8));
-                        break;
-                    // The player's armor points are increased by a random integer from 1 to 3.
-                    case ARMOR_SCROLL:
-                        addArmor(randInt(1, 3));
-                        break;
-                    // The player's strength points are increased by a random integer from 1 to 3.
-                    case STRENGTH_SCROLL:
-                        addStrength(randInt(1, 3));
-                        break;
-                    // The player's dexterity is increased by 1.
-                    case DEX_SCROLL:
-                        addDex(1);
-                        break;
-                    case TP_SCROLL:
-                        getDungeon()->spawnPlayer();
-                        break;
-                    default:
-                        break;
-                }
-                cout << "You read the scroll called " << testScroll->getName() << ". " << testScroll->getAction() << endl;
-                // Erase from inventory
-                for (vector<Object*>::iterator obj = inventory.begin(); obj != inventory.end(); obj++, index++)
-                {
-                    if ((*obj) == testScroll)
-                    {
-                        inventory.erase(obj);
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                cout << "You can't read a " << (*obj)->getName() << "." << endl;
-            }
-        }
-    }
-}
+//void weildWeapon(char ch);      //change weapons 'w'
+//void readScroll(char ch);       //read scroll 'r'
+//void openInventory();            //open inventory with 'i'
 
 void Player::openIventory()
 {
@@ -792,4 +697,3 @@ void Goblin::takeTurn()
         chasePlayer(getDungeon()->getPlayer(), getDungeon());
     }
 }
-

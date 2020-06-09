@@ -163,11 +163,6 @@ void Dungeon::genObjects()
 
 void Dungeon::spawnPlayer()         //randomly plops the player in the dungeon.
 {
-    if (m_player->getRowPos() && m_player->getColPos())
-    {
-        m_player->clearLastPositionOnMap();
-    }
-    
     int temp_row;
     int temp_col;         //create temp vars to hold coordinates.
     
@@ -322,7 +317,6 @@ void Dungeon::eraseObject(Object* object)
             map[object->getRow()][object->getCol()] = ' ';
             setChar(object->getRow(), object->getCol(), ' ');
             objectVector.erase(obj);
-            return;
         }
     }
 }
@@ -490,4 +484,3 @@ void Dungeon::clearObjects()
     }
     objectVector.clear();       //clears the vector of dead pointers
 }
-

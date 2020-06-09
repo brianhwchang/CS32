@@ -7,7 +7,7 @@
 //
 
 #include "Object.h"
-#include "globals.h"
+
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //      WEAPON CLASS FUNCTIONS
@@ -64,34 +64,19 @@ Scroll::Scroll(string name, string action)
 :Object(name, action) {}
 
 HPScroll::HPScroll()
-:Scroll("scroll of enhance health", "You feel your heart beating stronger.")
-{
-    setType(HP_SCROLL);
-}
+:Scroll("scroll of enhance health", "You feel your heart beating stronger.") {}
 
 ArmorScroll::ArmorScroll()
-:Scroll("scroll of enhance armor", "Your armor glows blue.")
-{
-    setType(ARMOR_SCROLL);
-}
+:Scroll("scroll of enhance armor", "Your armor glows blue.") {}
 
 StrengthScroll::StrengthScroll()
-:Scroll("scroll of strength" , "Your muscles bulge.")
-{
-    setType(STRENGTH_SCROLL);
-}
+:Scroll("scroll of strength" , "Your muscles bulge.") {}
 
 DexScroll::DexScroll()
-:Scroll("scroll of enhance dexterity", "You feel like less of a klutz.")
-{
-    setType(DEX_SCROLL);
-}
+:Scroll("scroll of enhance dexterity", "You feel like less of a klutz.") {}
 
 TPScroll::TPScroll()
-:Scroll("scroll of teleportation", "You feel your body wrenched in space and time.")
-{
-    setType(TP_SCROLL);
-}
+:Scroll("scroll of teleportation", "You feel your body wrenched in space and time.") {}
 
 
 //Drop Constructors (Because they include positions)
@@ -113,4 +98,3 @@ DexScroll::DexScroll(int row, int col)
 
 TPScroll::TPScroll(int row, int col)
 :Scroll(row, col, "scroll of teleportation", "You feel your body wrenched in space and time.") {}
-

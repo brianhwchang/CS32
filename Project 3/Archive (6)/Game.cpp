@@ -20,16 +20,8 @@ Game::~Game()
 void Game::play()
 {
     char move = 0;
-    char scroll = 0;
-    char weapon = 0;
-    
     while (move != 'q')
     {
-        // If player has won, stop program
-        if (m_dungeon->getPlayer()->hasWon())
-        {
-            return;
-        }
         // Display the board
         m_dungeon->printDungeon();
         // If player is dead
@@ -64,15 +56,9 @@ void Game::play()
                 m_dungeon->getPlayer()->pickUp();
                 break;
             case WIELD_WEAPON:
-                m_dungeon->getPlayer()->openIventory();
-                weapon = getCharacter();
-                m_dungeon->getPlayer()->wieldWeapon(weapon);
-                break;
+                
             case READ_SCROLL:
-                m_dungeon->getPlayer()->openIventory();
-                scroll = getCharacter();
-                m_dungeon->getPlayer()->readScroll(scroll);
-                break;
+                
             case INVENTORY:
                 m_dungeon->getPlayer()->openIventory();
                 break;
@@ -100,19 +86,3 @@ void Game::play()
 // (e.g., Player.h, Boegeyman.h, etc.), or you might put the class
 // declarations for all actors in Actor.h, all game objects in GameObject.h,
 // etc.
-
-
-Game* xxxcreateGame(int goblinRecursionDepth)
-{
-	return new Game(goblinRecursionDepth);
-}
-
-void xxxplayGame(Game* gp)
-{
-	gp->play();
-}
-
-void xxxDestroyGame(Game* gp)
-{
-	delete gp;
-}

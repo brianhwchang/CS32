@@ -129,13 +129,7 @@ class Scroll : public Object
 public:
     Scroll(string name, string action);                     //for inventory
     Scroll(int row, int col, string name, string action);   //for drop
-    
-    int getType() { return m_type; }
-    void setType(int type) { m_type = type; }
     virtual ~Scroll() {}
-    
-private:
-    int m_type;
 };
 
 class HPScroll : public Scroll
@@ -182,4 +176,3 @@ public:
 
 
 #endif /* Object_h */
-

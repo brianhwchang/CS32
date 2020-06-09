@@ -113,4 +113,3 @@ DexScroll::DexScroll(int row, int col)
 
 TPScroll::TPScroll(int row, int col)
 :Scroll(row, col, "scroll of teleportation", "You feel your body wrenched in space and time.") {}
-

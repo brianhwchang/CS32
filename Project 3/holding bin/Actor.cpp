@@ -792,4 +792,3 @@ void Goblin::takeTurn()
         chasePlayer(getDungeon()->getPlayer(), getDungeon());
     }
 }
-
