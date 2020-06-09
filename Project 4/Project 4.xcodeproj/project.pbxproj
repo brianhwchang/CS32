@@ -10,6 +10,7 @@
 		780537532485228600206FDE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 780537522485228600206FDE /* main.cpp */; };
 		7805375B248522D600206FDE /* ChatTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78053759248522D600206FDE /* ChatTracker.cpp */; };
 		78604E67248FDA6B003111ED /* ChatTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78604E66248FDA6B003111ED /* ChatTable.cpp */; };
+		78604E69248FE0B1003111ED /* UserTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78604E68248FE0B1003111ED /* UserTable.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,7 @@
 		78053759248522D600206FDE /* ChatTracker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTracker.cpp; sourceTree = "<group>"; };
 		7805375A248522D600206FDE /* ChatTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatTracker.h; sourceTree = "<group>"; };
 		78604E66248FDA6B003111ED /* ChatTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTable.cpp; sourceTree = "<group>"; };
+		78604E68248FE0B1003111ED /* UserTable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UserTable.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				7805375A248522D600206FDE /* ChatTracker.h */,
 				78053759248522D600206FDE /* ChatTracker.cpp */,
 				78604E66248FDA6B003111ED /* ChatTable.cpp */,
+				78604E68248FE0B1003111ED /* UserTable.cpp */,
 			);
 			path = "Project 4";
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7805375B248522D600206FDE /* ChatTracker.cpp in Sources */,
+				78604E69248FE0B1003111ED /* UserTable.cpp in Sources */,
 				78604E67248FDA6B003111ED /* ChatTable.cpp in Sources */,
 				780537532485228600206FDE /* main.cpp in Sources */,
 			);

@@ -13,6 +13,7 @@
 #include <vector>
 #include <functional>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -92,8 +93,10 @@ void ChatTable::insertChat(string chatName)
     list<Chats>::iterator i;
     for (i = chatTable[index].begin(); i != chatTable[index].end(); i++)
     {
-        if (chatName == (*i).m_chatname)
+        if (chatName == (*i).m_chatname) {
             chatExists = true;
+            break;
+        }
     }
     
     //if it exists
@@ -206,3 +209,28 @@ bool ChatTable::chatExists(string chatName)
 }
 
 
+
+
+
+// test routine
+
+int main()
+{
+    ChatTable ct;
+    ct.insertChat("memes");
+    ct.insertChat("dreams");
+    ct.insertChat("schemes");
+    
+    assert(ct.chatExists("memes") == true);
+    assert(ct.chatExists("dreams") == true);
+    assert(ct.chatExists("schemes") == true);
+    
+    ct.addMember("memes", "brian");
+    ct.addMember("memes", "brian");
+    
+    
+    
+    
+    
+    cout << "Passed all tests!" << endl;
+}

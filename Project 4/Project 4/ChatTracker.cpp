@@ -20,20 +20,29 @@ using namespace std;
 //-----------------OBJECT STRUCTS--------------------
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-//A user's list of chats that they're in.
-struct MemberChats
-{
-    string memChatName;             //name of chat
-    int userContributionNum;        //number of contributions made by the user
-};
+//
+////Chat struct that keeps track of chat name, total contributions made to the chat, and it's members.
+//struct Chats
+//{
+//    string m_chatname;                //name of chat
+//    int totalContributions;           //total number of contributions
+//    list<string> memberList;            //vector that stores the names of all the chat's members
+//};
 
-//User struct.
-struct Users
-{
-    string m_username;                //name of user
-    list<MemberChats> memChatsList;   //chats user is a member of
-    //the order of the list is the order of the chats
-};
+////A user's list of chats that they're in.
+//struct MemberChats
+//{
+//    string memChatName;             //name of chat
+//    int userContributionNum;        //number of contributions made by the user
+//};
+//
+////User struct.
+//struct Users
+//{
+//    string m_username;                //name of user
+//    list<MemberChats> memChatsList;   //chats user is a member of
+//    //the order of the list is the order of the chats
+//};
 
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
